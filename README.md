@@ -16,14 +16,14 @@ cd "C:\Users\Media\Desktop\Personal\01-Projects\Grok Test"
 npm run dev
 ```
 
-3. Open your browser and go to: **http://localhost:5173**
+3. Open your browser and go to: **http://localhost:3001**
 
 For the final built version:
 ```powershell
 npm run build
 npm run preview
 ```
-Then visit **http://localhost:4173**
+Then visit **http://localhost:3001** (after `npm run build && npm run start`)
 
 ![Jamsaq](https://picsum.photos/id/1015/1200/630)
 
@@ -33,7 +33,7 @@ Then visit **http://localhost:4173**
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+Open [http://localhost:3001](http://localhost:3001) in your browser.
 
 ## Features
 

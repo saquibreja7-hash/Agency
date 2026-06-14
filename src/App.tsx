@@ -139,84 +139,6 @@ const testimonials = [
 ]
 
 // =========================================
-// FLOATING MOCKUPS (product UI above pastel mesh)
-// =========================================
-function WebsiteMockup() {
-  return (
-    <div className="mockup mockup-browser w-full max-w-[420px] shadow-[0_0_32px_rgba(0,0,0,0.1)]">
-      <div className="mockup-header">
-        <div className="mockup-dot" style={{ background: '#f55' }} />
-        <div className="mockup-dot" style={{ background: '#fc5' }} />
-        <div className="mockup-dot" style={{ background: '#5c5' }} />
-      </div>
-      <div className="mockup-content text-[11px]">
-        <div className="h-2 w-16 bg-[#4a154b] rounded mb-3" />
-        <div className="text-[13px] font-semibold tracking-[-0.2px] mb-1">A new way to see your numbers.</div>
-        <div className="text-[#696969] text-[10px] mb-3 leading-snug">Beautiful financial clarity for teams that move fast.</div>
-        <div className="flex gap-2">
-          <div className="button-primary-pill text-[11px] px-4 py-1" style={{ fontSize: '11px', padding: '6px 14px' }}>Start free trial</div>
-          <div className="button-secondary-pill text-[11px] px-4 py-1" style={{ fontSize: '11px', padding: '6px 14px' }}>Watch 1:42</div>
-        </div>
-        <div className="mt-4 grid grid-cols-3 gap-2 text-[9px]">
-          <div className="bg-[#f4ede4] rounded p-2">+34% MRR</div>
-          <div className="bg-[#f4ede4] rounded p-2">92 NPS</div>
-          <div className="bg-[#f4ede4] rounded p-2">12s load</div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function MobileMockup() {
-  return (
-    <div className="mockup-phone w-[148px] text-[9.5px]">
-      <div className="mockup-header" />
-      <div className="mockup-content">
-        <div className="font-semibold tracking-tight mb-2">Today</div>
-        <div className="space-y-2">
-          <div className="bg-[#f9f0ff] rounded-xl p-2.5">
-            <div className="font-medium">Design sync</div>
-            <div className="text-[#696969] text-[9px]">10:30 • 4 attendees</div>
-          </div>
-          <div className="bg-[#f9f0ff] rounded-xl p-2.5">
-            <div className="font-medium">Launch checklist</div>
-            <div className="text-[#696969] text-[9px]">14 items • 3 left</div>
-          </div>
-        </div>
-        <div className="mt-3 text-center">
-          <div className="button-primary-pill mx-auto" style={{ fontSize: '10px', padding: '5px 16px' }}>New update</div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function PlatformMockup() {
-  return (
-    <div className="mockup w-full max-w-[380px] text-[10px]">
-      <div className="flex border-b border-[#e6e6e6] bg-[#faf6f1]">
-        <div className="px-3 py-1.5 text-[#4a154b] font-medium border-b-2 border-[#4a154b]">Overview</div>
-        <div className="px-3 py-1.5 text-[#696969]">Teams</div>
-        <div className="px-3 py-1.5 text-[#696969]">Insights</div>
-      </div>
-      <div className="p-3 bg-white">
-        <div className="flex justify-between items-end mb-3">
-          <div>
-            <div className="text-[11px] text-[#696969]">Active this week</div>
-            <div className="display-md" style={{ fontSize: '22px', letterSpacing: '-0.4px' }}>2,481</div>
-          </div>
-          <div className="text-right text-[10px] text-[#007a5a]">+18%</div>
-        </div>
-        <div className="h-1.5 bg-[#f4ede4] rounded mb-4">
-          <div className="h-1.5 w-[78%] bg-[#4a154b] rounded" />
-        </div>
-        <div className="text-[9px] text-[#696969]">Highest adoption in Product and Growth teams.</div>
-      </div>
-    </div>
-  )
-}
-
-// =========================================
 // MAIN APP
 // =========================================
 function App() {
@@ -227,14 +149,14 @@ function App() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [activeServiceIndex, setActiveServiceIndex] = useState(0)
 
   // Refs for Lenis and scroll animations
   const lenisRef = useRef<Lenis | null>(null)
   const heroRef = useRef<HTMLDivElement>(null)
-  const mockupsWrapperRef = useRef<HTMLDivElement>(null)
-  const websiteMockRef = useRef<HTMLDivElement>(null)
-  const mobileMockRef = useRef<HTMLDivElement>(null)
-  const platformMockRef = useRef<HTMLDivElement>(null)
+  const mockup1Ref = useRef<HTMLDivElement>(null) // Website mockup
+  const mockup2Ref = useRef<HTMLDivElement>(null) // Phone mockup
+  const mockup3Ref = useRef<HTMLDivElement>(null) // Platform mockup
 
   const statsRef = useRef<HTMLDivElement>(null)
   const workRef = useRef<HTMLDivElement>(null)
@@ -292,57 +214,36 @@ function App() {
 
     // Setup all scroll-driven parallax and entrance animations
     const setupAnimations = () => {
-      // --- HERO MOCKUPS PARALLAX (different speeds for depth) ---
-      if (websiteMockRef.current) {
-        gsap.to(websiteMockRef.current, {
-          y: -38,
-          rotation: -1.5,
+      // Hero text subtle spatial parallax
+      const heroText = heroRef.current?.querySelector('.hero-text')
+      if (heroText) {
+        gsap.to(heroText, {
+          y: 38,
+          opacity: 0.94,
           scrollTrigger: {
             trigger: heroRef.current,
             start: 'top top',
             end: 'bottom top',
-            scrub: 1.1,
-          },
-        })
-      }
-      if (mobileMockRef.current) {
-        gsap.to(mobileMockRef.current, {
-          y: -85,
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1.4,
-          },
-        })
-      }
-      if (platformMockRef.current) {
-        gsap.to(platformMockRef.current, {
-          y: 32,
-          rotation: 2,
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 0.9,
+            scrub: 0.65,
           },
         })
       }
 
-      // Subtle parallax + fade on hero text
-      const heroText = heroRef.current?.querySelector('.hero-text')
-      if (heroText) {
-        gsap.to(heroText, {
-          y: 45,
-          opacity: 0.92,
+      // Scroll-based parallax on the three floating mockups (different speeds for depth)
+      const mockups = [mockup1Ref.current, mockup2Ref.current, mockup3Ref.current].filter(Boolean)
+      mockups.forEach((mock, i) => {
+        const yValue = i === 0 ? -45 : i === 1 ? -85 : -25 // different parallax speeds
+        const scrubValue = 0.9 + i * 0.25
+        gsap.to(mock, {
+          y: yValue,
           scrollTrigger: {
             trigger: heroRef.current,
             start: 'top top',
             end: 'bottom top',
-            scrub: 0.7,
+            scrub: scrubValue,
           },
         })
-      }
+      })
 
       // --- STATS: Count-up + light parallax on the stat cards ---
       if (statsRef.current) {
@@ -578,43 +479,230 @@ function App() {
             </div>
           </div>
 
-          {/* Floating product UI mockups — parallax layers above the mesh */}
-          <div ref={mockupsWrapperRef} className="mt-14 md:mt-6 relative min-h-[260px] md:min-h-[320px] flex items-end justify-center gap-6 flex-wrap">
-            <div ref={websiteMockRef} className="relative z-10 -mb-6 md:mb-4 md:-rotate-[3deg] scale-[0.92] md:scale-100">
-              <WebsiteMockup />
+          {/* Floating product UI mockups */}
+          <div className="mt-14 md:mt-6 relative min-h-[260px] md:min-h-[320px] flex items-end justify-center gap-6 flex-wrap">
+            <div ref={mockup1Ref} className="mockup mockup-browser w-full max-w-[420px] shadow-[0_0_32px_rgba(0,0,0,0.1)]">
+              <div className="mockup-header">
+                <div className="mockup-dot" style={{ background: '#f55' }} />
+                <div className="mockup-dot" style={{ background: '#fc5' }} />
+                <div className="mockup-dot" style={{ background: '#5c5' }} />
+              </div>
+              <div className="mockup-content text-[11px]">
+                <div className="h-2 w-16 bg-[#4a154b] rounded mb-3" />
+                <div className="text-[13px] font-semibold tracking-[-0.2px] mb-1">A new way to see your numbers.</div>
+                <div className="text-[#696969] text-[10px] mb-3 leading-snug">Beautiful financial clarity for teams that move fast.</div>
+                <div className="flex gap-2">
+                  <div className="button-primary-pill text-[11px] px-4 py-1" style={{ fontSize: '11px', padding: '6px 14px' }}>Start free trial</div>
+                  <div className="button-secondary-pill text-[11px] px-4 py-1" style={{ fontSize: '11px', padding: '6px 14px' }}>Watch 1:42</div>
+                </div>
+                <div className="mt-4 grid grid-cols-3 gap-2 text-[9px]">
+                  <div className="bg-[#f4ede4] rounded p-2">+34% MRR</div>
+                  <div className="bg-[#f4ede4] rounded p-2">92 NPS</div>
+                  <div className="bg-[#f4ede4] rounded p-2">12s load</div>
+                </div>
+              </div>
             </div>
-            <div ref={mobileMockRef} className="relative z-20 -mb-2 md:mb-2 scale-[0.88] md:scale-[0.96]">
-              <MobileMockup />
+            <div ref={mockup2Ref} className="mockup-phone w-[148px] text-[9.5px]">
+              <div className="mockup-header" />
+              <div className="mockup-content">
+                <div className="font-semibold tracking-tight mb-2">Today</div>
+                <div className="space-y-2">
+                  <div className="bg-[#f9f0ff] rounded-xl p-2.5">
+                    <div className="font-medium">Design sync</div>
+                    <div className="text-[#696969] text-[9px]">10:30 • 4 attendees</div>
+                  </div>
+                  <div className="bg-[#f9f0ff] rounded-xl p-2.5">
+                    <div className="font-medium">Launch checklist</div>
+                    <div className="text-[#696969] text-[9px]">14 items • 3 left</div>
+                  </div>
+                </div>
+                <div className="mt-3 text-center">
+                  <div className="button-primary-pill mx-auto" style={{ fontSize: '10px', padding: '5px 16px' }}>New update</div>
+                </div>
+              </div>
             </div>
-            <div ref={platformMockRef} className="relative z-10 -mb-8 md:-mb-4 md:rotate-[2.5deg] scale-[0.92] md:scale-100">
-              <PlatformMockup />
+            <div ref={mockup3Ref} className="mockup w-full max-w-[380px] text-[10px]">
+              <div className="flex border-b border-[#e6e6e6] bg-[#faf6f1]">
+                <div className="px-3 py-1.5 text-[#4a154b] font-medium border-b-2 border-[#4a154b]">Overview</div>
+                <div className="px-3 py-1.5 text-[#696969]">Teams</div>
+                <div className="px-3 py-1.5 text-[#696969]">Insights</div>
+              </div>
+              <div className="p-3 bg-white">
+                <div className="flex justify-between items-end mb-3">
+                  <div>
+                    <div className="text-[11px] text-[#696969]">Active this week</div>
+                    <div className="display-md" style={{ fontSize: '22px', letterSpacing: '-0.4px' }}>2,481</div>
+                  </div>
+                  <div className="text-right text-[10px] text-[#007a5a]">+18%</div>
+                </div>
+                <div className="h-1.5 bg-[#f4ede4] rounded mb-4">
+                  <div className="h-1.5 w-[78%] bg-[#4a154b] rounded" />
+                </div>
+                <div className="text-[9px] text-[#696969]">Highest adoption in Product and Growth teams.</div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* SERVICES — card-feature-cream */}
-      <section id="services" className="section container">
-        <div className="text-center mb-12">
-          <div className="pill-cap-shade mb-3">WHAT WE MAKE</div>
-          <h2 className="display-xl tracking-[-0.5px]">Three kinds of work.<br />One standard of care.</h2>
-        </div>
+      <section id="services" className="section bg-[#f4ede4]">
+        <div className="container">
+          <div className="text-center mb-10">
+            <div className="pill-cap-shade mb-3">WHAT WE MAKE</div>
+            <h2 className="display-xl tracking-[-0.5px]">Three kinds of work.<br />One standard of care.</h2>
+            <p className="body-lg text-[#696969] max-w-[42ch] mx-auto mt-4">
+              Every project receives the same obsessive attention to craft, motion, and user delight — whether it's a marketing site, a mobile product, or a complex platform.
+            </p>
+          </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {services.map((s, i) => (
-            <div key={i} className="card-feature-cream">
-              <div className="heading-md mb-3">{s.title}</div>
-              <p className="text-[#696969] mb-6 body-md">{s.desc}</p>
-              <ul className="space-y-[10px] text-sm">
-                {s.points.map((p, idx) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <span className="mt-1.5 block w-[3px] h-[3px] rounded-full bg-[#4a154b]" />
-                    <span>{p}</span>
-                  </li>
-                ))}
-              </ul>
+          {/* Interactive Service Showcase */}
+          <div className="max-w-5xl mx-auto">
+            {/* Service Selectors - elegant interactive tabs */}
+            <div className="flex flex-col md:flex-row justify-center gap-3 mb-8">
+              {services.map((service, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveServiceIndex(index)}
+                  className={`group flex-1 md:flex-none px-8 py-4 rounded-[90px] text-left md:text-center transition-all border flex items-center gap-3 ${
+                    activeServiceIndex === index 
+                      ? 'bg-[#4a154b] text-white border-[#4a154b] shadow-lg' 
+                      : 'bg-white hover:bg-[#f9f0ff] border-[#e6e6e6] text-[#1d1d1d] hover:border-[#4a154b]'
+                  }`}
+                >
+                  <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 transition-colors ${
+                    activeServiceIndex === index ? 'bg-white' : 'bg-[#4a154b] group-hover:bg-[#4a154b]'
+                  }`} />
+                  <div>
+                    <div className="font-semibold tracking-tight text-lg">{service.title}</div>
+                    <div className={`text-sm mt-0.5 ${activeServiceIndex === index ? 'text-[#d9bdde]' : 'text-[#696969]'}`}>
+                      {index === 0 && "Stunning digital experiences"}
+                      {index === 1 && "Native-quality on every device"}
+                      {index === 2 && "Complex systems that feel simple"}
+                    </div>
+                  </div>
+                </button>
+              ))}
             </div>
-          ))}
+
+            {/* Attractive Live Preview Area */}
+            <div className="relative bg-white rounded-[24px] border border-[#e6e6e6] overflow-hidden shadow-xl min-h-[380px] md:min-h-[420px] flex items-center justify-center p-4 md:p-8 transition-all duration-500">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeServiceIndex}
+                  initial={{ opacity: 0, y: 20, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -15, scale: 0.985 }}
+                  transition={{ duration: 0.45, ease: [0.23, 1, 0.32, 1] }}
+                  className="w-full max-w-[920px]"
+                >
+                  {activeServiceIndex === 0 && (
+                    /* Websites Preview - Elegant Browser */
+                    <div className="mockup-browser w-full max-w-[860px] mx-auto shadow-2xl">
+                      <div className="mockup-header bg-[#f4ede4]">
+                        <div className="mockup-dot" style={{ background: '#f55' }} />
+                        <div className="mockup-dot" style={{ background: '#fc5' }} />
+                        <div className="mockup-dot" style={{ background: '#5c5' }} />
+                      </div>
+                      <div className="p-8 bg-white text-left">
+                        <div className="max-w-md">
+                          <div className="pill-cap-shade mb-4">BRAND EXPERIENCE</div>
+                          <h3 className="text-4xl tracking-[-1.5px] font-semibold leading-none mb-4 text-[#1d1d1d]">
+                            Digital presence<br />that actually converts.
+                          </h3>
+                          <p className="text-[#696969] mb-6">We build fast, beautiful marketing sites and platforms with obsessive attention to typography, motion, and performance.</p>
+                          <div className="flex gap-3">
+                            <div className="button-primary-pill text-sm">Explore our work</div>
+                            <div className="button-secondary-pill text-sm">See case studies</div>
+                          </div>
+                        </div>
+                        <div className="mt-10 grid grid-cols-3 gap-4 text-sm">
+                          <div className="bg-[#f4ede4] p-4 rounded-xl">
+                            <div className="text-[#4a154b] text-xs tracking-widest mb-1">PERFORMANCE</div>
+                            <div className="font-semibold">98 Lighthouse</div>
+                          </div>
+                          <div className="bg-[#f4ede4] p-4 rounded-xl">
+                            <div className="text-[#4a154b] text-xs tracking-widest mb-1">CONVERSION</div>
+                            <div className="font-semibold">+3.4× average lift</div>
+                          </div>
+                          <div className="bg-[#f4ede4] p-4 rounded-xl">
+                            <div className="text-[#4a154b] text-xs tracking-widest mb-1">ENGAGEMENT</div>
+                            <div className="font-semibold">42% longer sessions</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeServiceIndex === 1 && (
+                    /* Mobile Apps Preview — Clean, attractive phone frame using your provided UI image */
+                    <div className="flex justify-center">
+                      <div 
+                        className="w-[270px] bg-[#111] rounded-[3.25rem] p-[6px] shadow-2xl"
+                        style={{ boxShadow: '0 25px 70px -10px rgb(0 0 0 / 0.35), 0 8px 25px -8px rgb(0 0 0 / 0.2)' }}
+                      >
+                        {/* Thin black bezel */}
+                        <div className="bg-black rounded-[2.75rem] overflow-hidden p-[3px]">
+                          {/* 
+                            IMPORTANT: Save the mobile UI image you attached as: 
+                            public/mobile-app-ui.jpg 
+                            (or update the src below if you put it elsewhere)
+                          */}
+                          {/* 
+                            === PLACE THE ATTACHED IMAGE HERE ===
+                            Save the image from the chat as:
+                            public/images/mobile-app-ui.jpg
+                            (Create the 'images' folder inside 'public' if needed)
+                            Then it will load at /images/mobile-app-ui.jpg
+                          */}
+                          <img 
+                            src="/images/mobile-app-ui.jpg" 
+                            alt="Mobile app UI screen — example of the polished, modern mobile experiences we deliver"
+                            className="w-full rounded-[2.4rem] block"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeServiceIndex === 2 && (
+                    /* Web Platforms Preview - Dashboard Style */
+                    <div className="bg-white border border-[#e6e6e6] rounded-3xl p-6 max-w-[820px] mx-auto shadow-xl">
+                      <div className="flex justify-between items-center mb-6 px-2">
+                        <div>
+                          <div className="text-xs tracking-[2px] text-[#4a154b]">AETHER ANALYTICS</div>
+                          <div className="text-2xl font-semibold tracking-tight">Platform overview</div>
+                        </div>
+                        <div className="button-secondary-pill text-xs py-1.5 px-5">Export report</div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="bg-[#f4ede4] rounded-2xl p-5">
+                          <div className="text-[#696969] text-sm mb-1">Monthly active</div>
+                          <div className="text-5xl font-semibold text-[#4a154b] tracking-tighter">14.8k</div>
+                          <div className="text-emerald-600 text-sm mt-1">+27% from last month</div>
+                        </div>
+                        <div className="md:col-span-2 bg-[#f9f0ff] rounded-2xl p-5">
+                          <div className="text-[#696969] text-sm mb-3">Team health</div>
+                          <div className="flex items-end gap-3">
+                            <div className="text-6xl font-semibold text-[#4a154b] leading-none tracking-[-2px]">94</div>
+                            <div className="text-sm text-[#696969] pb-1">/ 100</div>
+                          </div>
+                          <div className="mt-4 h-1.5 bg-white/70 rounded-full overflow-hidden">
+                            <div className="h-1.5 w-[94%] bg-[#4a154b] rounded-full" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <div className="text-center mt-6 text-sm text-[#696969]">
+              Click the services above to explore live interface previews.
+            </div>
+          </div>
         </div>
       </section>
 

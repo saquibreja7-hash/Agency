@@ -1,0 +1,524 @@
+@import "tailwindcss";
+
+/* =========================================
+   SLACC DESIGN SYSTEM — Adapted for Jamsaq
+   Light-only, aubergine monotheism + cream/lavender
+   ========================================= */
+
+:root {
+  /* Brand & Accent */
+  --primary: #4a154b;
+  --primary-deep: #481a54;
+  --primary-press: #611f69;
+  --primary-tint: #592466;
+  --link-blue: #1264a3;
+  --link-hover: #3860be;
+
+  /* Surfaces */
+  --canvas: #ffffff;
+  --canvas-cream: #f4ede4;
+  --canvas-lavender: #f9f0ff;
+  --surface-aubergine: #4a154b;
+  --hairline: #e6e6e6;
+
+  /* Text */
+  --ink: #1d1d1d;
+  --ink-mute: #696969;
+  --on-primary: #ffffff;
+  --on-aubergine-mute: #d9bdde;
+
+  /* Semantic */
+  --semantic-error: #cc4117;
+  --semantic-success: #007a5a;
+
+  /* Typography (Inter) */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Spacing (8px base) */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-xxl: 24px;
+  --spacing-huge: 28px;
+
+  /* Radii */
+  --rounded-xs: 2px;
+  --rounded-sm: 4px;
+  --rounded-md: 8px;
+  --rounded-lg: 12px;
+  --rounded-xl: 16px;
+  --rounded-xxl: 48px;
+  --rounded-pill: 90px;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--canvas);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.55;
+}
+
+/* =========================================
+   TYPOGRAPHY — Strict adherence to spec
+   ========================================= */
+
+h1, h2, h3, h4 {
+  font-feature-settings: "tnum";
+}
+
+/* Display tiers — tight negative tracking */
+.display-xxl {
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.768px;
+}
+
+.display-xl {
+  font-size: 58px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.464px;
+}
+
+.display-lg {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.6px;
+}
+
+.display-md {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.256px;
+}
+
+.heading-lg {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.33;
+  letter-spacing: -0.096px;
+}
+
+.heading-md {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.heading-sm {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.56;
+  letter-spacing: -0.0216px;
+}
+
+.body-lg {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: -0.0216px;
+}
+
+.body-md {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.body-strong {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.16px;
+}
+
+.caption {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0.1px;
+}
+
+.micro-cap {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+}
+
+/* =========================================
+   BUTTONS — Exact pill system
+   ========================================= */
+
+.button-primary-pill,
+.button-secondary-pill,
+.button-outline-aubergine,
+.button-outline-on-aubergine {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  border-radius: var(--rounded-pill);
+  transition: all 0.15s cubic-bezier(0.23, 1, 0.32, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.button-primary-pill {
+  background: var(--primary);
+  color: var(--on-primary);
+  padding: 14px 28px;
+  font-size: 16px;
+  line-height: 1.38;
+  letter-spacing: 0.2px;
+}
+
+.button-primary-pill:hover {
+  background: var(--primary-press);
+}
+
+.button-primary-pill:active {
+  background: var(--primary-deep);
+}
+
+.button-secondary-pill {
+  background: var(--canvas-lavender);
+  color: var(--ink);
+  padding: 10px 30px;
+  font-size: 16px;
+  line-height: 1.38;
+}
+
+.button-secondary-pill:hover {
+  background: #f3e8ff;
+}
+
+.button-outline-aubergine {
+  background: var(--canvas);
+  color: var(--primary);
+  padding: 12px 28px;
+  font-size: 16px;
+  border: 2px solid var(--primary);
+}
+
+.button-outline-aubergine:hover {
+  background: var(--canvas-lavender);
+}
+
+.button-outline-on-aubergine {
+  background: transparent;
+  color: var(--on-primary);
+  padding: 12px 28px;
+  font-size: 16px;
+  border: 2px solid var(--on-primary);
+}
+
+.button-outline-on-aubergine:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* =========================================
+   CARDS — Per spec
+   ========================================= */
+
+.card-pricing,
+.card-pricing-featured,
+.card-feature-cream,
+.card-aubergine-band,
+.card-stat {
+  transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.2s ease;
+}
+
+.card-pricing {
+  background: var(--canvas);
+  padding: 32px;
+  border-radius: var(--rounded-xl);
+  border: 1px solid var(--hairline);
+}
+
+.card-pricing-featured {
+  background: var(--surface-aubergine);
+  color: var(--on-primary);
+  padding: 32px;
+  border-radius: var(--rounded-xl);
+}
+
+.card-feature-cream {
+  background: var(--canvas-cream);
+  color: var(--ink);
+  border-radius: var(--rounded-xl);
+  padding: 32px;
+}
+
+.card-aubergine-band {
+  background: var(--surface-aubergine);
+  color: var(--on-primary);
+  padding: 48px;
+  border-radius: var(--rounded-xl);
+}
+
+.card-stat {
+  background: var(--canvas);
+  padding: 28px 32px;
+  border-radius: var(--rounded-xl);
+  border: 1px solid var(--hairline);
+}
+
+.card-stat .number {
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.6px;
+  color: var(--primary);
+}
+
+/* =========================================
+   PASTEL-MESH GRADIENT (Signature)
+   ========================================= */
+
+.pastel-mesh {
+  background:
+    radial-gradient(ellipse at 18% 22%, #fff0e6 0%, transparent 52%),
+    radial-gradient(ellipse at 82% 18%, #e9d8ff 0%, transparent 58%),
+    radial-gradient(ellipse at 25% 78%, #e0e8d8 0%, transparent 55%),
+    radial-gradient(ellipse at 78% 82%, #f8e8d0 0%, transparent 48%),
+    var(--canvas-cream);
+  background-size: 120% 120%, 140% 140%, 110% 110%, 130% 130%;
+  background-position: center;
+}
+
+/* =========================================
+   FLOATING PRODUCT UI MOCKUPS
+   ========================================= */
+
+.mockup {
+  background: var(--canvas);
+  border-radius: var(--rounded-lg);
+  box-shadow: rgba(0,0,0,0.1) 0 0 32px 0;
+  border: 1px solid var(--hairline);
+  overflow: hidden;
+  font-family: var(--font-sans);
+  color: var(--ink);
+}
+
+.mockup-header {
+  height: 28px;
+  background: #f8f1e9;
+  border-bottom: 1px solid var(--hairline);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 6px;
+}
+
+.mockup-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.mockup-browser .mockup-content {
+  padding: 16px;
+}
+
+.mockup-phone {
+  width: 168px;
+  border-radius: 32px;
+  box-shadow: rgba(0,0,0,0.12) 0 0 32px 0, inset 0 0 0 8px #f4ede4;
+  overflow: hidden;
+}
+
+.mockup-phone .mockup-header {
+  height: 22px;
+  background: #111;
+}
+
+.mockup-phone .mockup-content {
+  padding: 12px;
+  background: var(--canvas);
+}
+
+/* =========================================
+   FORMS & INPUTS
+   ========================================= */
+
+.text-input {
+  background: var(--canvas);
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.55;
+  padding: 10px 12px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-sm);
+  width: 100%;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.text-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(74, 21, 75, 0.08);
+}
+
+.text-input::placeholder {
+  color: var(--ink-mute);
+}
+
+/* =========================================
+   NAV — Light marketing nav
+   ========================================= */
+
+.nav-bar-light {
+  background: var(--canvas);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.nav-link {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 6px 14px;
+  transition: color 0.15s ease;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
+/* =========================================
+   EYEBROWS & PILL CAPS
+   ========================================= */
+
+.pill-cap-shade {
+  background: var(--canvas-cream);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: var(--rounded-pill);
+  display: inline-block;
+}
+
+/* =========================================
+   LINKS — Per spec
+   ========================================= */
+
+a.link-on-light {
+  color: var(--link-blue);
+  text-decoration: none;
+}
+
+a.link-on-light:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+a.link-on-aubergine {
+  color: var(--on-primary);
+  text-decoration: underline;
+}
+
+a.link-on-aubergine:hover {
+  color: var(--on-aubergine-mute);
+}
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
+.footer-aubergine {
+  background: var(--surface-aubergine);
+  color: var(--on-primary);
+  padding: 32px 24px;
+}
+
+.footer-aubergine a {
+  color: var(--on-aubergine-mute);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-aubergine a:hover {
+  color: var(--on-primary);
+}
+
+/* =========================================
+   LAYOUT & UTILITIES
+   ========================================= */
+
+.container {
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.section {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+}
+
+/* Hero specific */
+.hero {
+  position: relative;
+  padding-top: 140px;
+  padding-bottom: 80px;
+}
+
+/* Work grid cards */
+.work-card {
+  background: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-xl);
+  overflow: hidden;
+  transition: transform .2s cubic-bezier(0.23,1,.32,1), box-shadow .2s;
+}
+
+.work-card:hover {
+  transform: translateY(-2px);
+  box-shadow: rgba(0,0,0,0.08) 0 10px 30px 0;
+}
+
+/* Modal — light and clean */
+.modal {
+  background: var(--canvas);
+  border-radius: var(--rounded-xl);
+  box-shadow: rgba(0,0,0,0.2) 0 1px 10px 0;
+}
+
+/* Mobile menu */
+.mobile-menu {
+  background: var(--canvas);
+  border-top: 1px solid var(--hairline);
+}
+
+/* Subtle hairline dividers */
+.hairline {
+  border-color: var(--hairline);
+}
+
+/* Make sure images in mockups look crisp */
+.mockup img {
+  image-rendering: crisp-edges;
+}
