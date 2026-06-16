@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Menu, X, ArrowRight } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import Lenis from 'lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -77,6 +77,135 @@ const projects: Project[] = [
   }
 ]
 
+const projectGroups = [
+  {
+    title: "Websites & Commerce",
+    kicker: "PUBLIC DIGITAL EXPERIENCES",
+    desc: "Launch-ready marketing, commerce, event, and SaaS surfaces with editorial presentation and production fundamentals.",
+    items: [
+      { id: 101, title: "TASI 2026 Website", category: "Website", client: "The Centre For Social Research", year: "2026", result: "Conference website", description: "Official event website covering programme, speakers, registration, sponsorship, media coverage, and event information for TASI 2026.", role: "Next.js 16, React 19, Tailwind CSS, Sanity/Supabase/Clerk integrations" },
+      { id: 102, title: "Shagun Box", category: "Commerce Website", client: "Shagun Box", year: "2026", result: "Complete MVP storefront", description: "India-focused premium gifting storefront for Shadi, Nikah, Eid/Ramadan, family gifting, and corporate orders with customization, cart, checkout-style requests, and WhatsApp handoff.", role: "Next.js App Router, TypeScript, Tailwind, product filters, cart, lead capture, SEO, analytics hooks" },
+      { id: 103, title: "ShaadiInvite", category: "SaaS Web App", client: "RSVP", year: "2026", result: "Active MVP build", description: "Mobile-first wedding invitation and RSVP platform for Indian families, planners, and couples with invite pages, event schedules, guest RSVPs, WhatsApp sharing, payments, privacy, galleries, and planner tooling.", role: "Next.js 14, Supabase, Razorpay, Cloudinary, Anthropic, analytics, Sentry" },
+      { id: 104, title: "Jamsaq Agency Website", category: "Website", client: "Jamsaq Agency", year: "2026", result: "Launch-ready agency site", description: "Premium digital studio website with typed local content, SEO surfaces, form protection, strategy documentation, QA evidence, and deployment handoff materials.", role: "Next.js App Router, TypeScript, Tailwind, shadcn/ui, Server Actions, Zod, QA and launch documentation" },
+      { id: 105, title: "Let's Love Landing Page", category: "Landing Page", client: "Let's Love", year: "2026", result: "Early access funnel", description: "Public signup site for the Let's Love mobile app, connected to Google Forms, optional Resend email, tester group links, voucher issuing, and production domain settings.", role: "Next.js, React, GSAP, Lenis, Three.js, server action signup flow" },
+    ] as Project[],
+  },
+  {
+    title: "Mobile Apps",
+    kicker: "NATIVE PRODUCT SYSTEMS",
+    desc: "Android and Expo products with real user flows, persistence, notifications, privacy controls, and release paths.",
+    items: [
+      { id: 201, title: "Let's Love", category: "Mobile App", client: "JAMSAQ STUDIO", year: "2026", result: "Android v1.2.37", description: "Private couple space for chat, memories, goals, todos, date ideas, calendar moments, daily quotes, pings, streaks, app lock, subscriptions, and Play Store release workflows.", role: "Expo SDK 54, React Native 0.81, Firebase Auth/Firestore/Storage/Functions/FCM, RevenueCat, Zustand" },
+      { id: 202, title: "TASI 2026 App", category: "Mobile App", client: "The Centre For Social Research", year: "2026", result: "Expo app v1.0.4", description: "Conference companion app with dark visual system, authentication, event data surfaces, camera permissions for QR check-in, notifications, media/profile support, and OTA updates.", role: "Expo, React Native, Clerk Expo, Firebase, Supabase, Sanity, Sentry, React Query" },
+      { id: 203, title: "AI Note Researcher", category: "Android App", client: "Internal Product Lab", year: "2026", result: "MVP alpha/private beta", description: "Local-first Kotlin app that turns rough notes, shopping research, grocery lists, books, and app ideas into structured decision cards with citations, provenance, privacy controls, search, and export.", role: "Kotlin, Jetpack Compose, Room, WorkManager, FTS search, privacy controls, local template generation" },
+      { id: 204, title: "Draft Habit", category: "Android App", client: "Creator Tools", year: "2026", result: "Creator execution assistant", description: "Solo creator app that turns social media uncertainty into daily content briefs, hooks, captions, tool recommendations, idea banks, templates, repurposing, and lightweight pipeline tracking.", role: "Kotlin Android, native Android Views, Room persistence, local reminders, backend scaffold" },
+      { id: 205, title: "Hadith of the Day", category: "Android App", client: "Faith Product", year: "2026", result: "Local app and backend foundation", description: "Calm, source-forward hadith reading app with a vertical reflection feed, saved notes, collections, source-linked corpus, reminders, widget, sharing, and reviewed remote corpus contracts.", role: "Kotlin Android, backend contracts, validation tooling, provider policy, Firebase Functions emulator checks" },
+      { id: 206, title: "Time Twist", category: "AI Mobile System", client: "Productivity Lab", year: "2026", result: "AI life audit MVP foundation", description: "Android-first life audit app that maps a real 24-hour routine, detects time waste and hidden opportunity, then helps redesign tomorrow around goals, energy, relationships, work, health, and recovery.", role: "Kotlin Compose, Material 3, Room/DataStore-oriented models, TypeScript backend, PostgreSQL, OpenAPI, prompts, schemas, evals" },
+    ] as Project[],
+  },
+  {
+    title: "Systems & Documentation",
+    kicker: "OPERATIONS, SAFETY, HANDOVER",
+    desc: "Sensitive workflows, client handovers, automation, and documentation-heavy systems built with reviewability in mind.",
+    items: [
+      { id: 301, title: "Asmita", category: "Safety System", client: "Open-source safety project", year: "2026", result: "Privacy-preserving NCII workflow", description: "Survivor-led URL takedown and notice-routing system for documenting abuse, generating reviewed notice packages, tracking escalation, and preserving audit trails without fetching or storing intimate media.", role: "Next.js, Prisma, safety architecture, notice templates, audit trails, admin review gates, policy documentation" },
+      { id: 302, title: "TASI Client Handover", category: "Documentation System", client: "TASI 2026", year: "2026", result: "Full handover package", description: "Structured client handover package covering credentials, technical documentation, deployment SOPs, design assets, source-code notes, user manuals, invoices, and legal documents.", role: "Technical docs, PDF/HTML generation, deployment SOP, manuals, scope/warranty/NDA/maintenance documents" },
+      { id: 303, title: "Speaker & Seminar Documents", category: "Document Automation", client: "Research / seminar workflow", year: "2026", result: "Formatted academic deliverables", description: "Document-production workspace for seminar papers, footnotes, references, numbering, render checks, speaker spreadsheets, and publishing polish.", role: "Python docx tooling, render verification, spreadsheet compilation, academic formatting and footnote workflows" },
+    ] as Project[],
+  },
+]
+
+const featuredProjects = [
+  {
+    id: 401,
+    title: "TASI 2026 Website",
+    category: "Conference Website",
+    client: "The Centre For Social Research",
+    year: "2026",
+    result: "Official conference platform",
+    description: "A polished event website for programme discovery, speaker profiles, registration, sponsors, media coverage, and conference information.",
+    role: "Next.js 16, React 19, Tailwind, Sanity, Supabase, Clerk, Sentry",
+    visual: "event",
+    tone: "Deep event system with editorial programme cards, speaker surfaces, and registration flow.",
+  },
+  {
+    id: 402,
+    title: "Shagun Box",
+    category: "Commerce Website",
+    client: "Shagun Box",
+    year: "2026",
+    result: "Complete MVP storefront",
+    description: "Premium India-first gifting storefront for Shadi, Nikah, Eid/Ramadan, family gifting, and corporate orders with cart, customization, and WhatsApp-assisted checkout.",
+    role: "Next.js App Router, TypeScript, Tailwind, product filters, cart, lead capture, SEO, analytics hooks",
+    visual: "commerce",
+    tone: "Warm storefront system with occasion-led collections, personalization controls, and trust-building checkout handoff.",
+  },
+  {
+    id: 403,
+    title: "Let's Love",
+    category: "Mobile App",
+    client: "JAMSAQ STUDIO",
+    year: "2026",
+    result: "Android v1.2.37",
+    description: "Private couple space for chat, memories, goals, todos, date ideas, shared calendar moments, daily quotes, pings, streaks, app lock, and subscriptions.",
+    role: "Expo SDK 54, React Native 0.81, Firebase, Cloud Functions, FCM, RevenueCat, Zustand",
+    visual: "phone",
+    tone: "A complete relationship app with intimate rituals, realtime messaging, and Play Store release workflows.",
+  },
+  {
+    id: 404,
+    title: "TASI 2026 App",
+    category: "Mobile App",
+    client: "The Centre For Social Research",
+    year: "2026",
+    result: "Expo app v1.0.4",
+    description: "Conference companion app with authentication, event data, dark visual system, camera permissions for QR check-in, notifications, media/profile support, and OTA updates.",
+    role: "Expo, React Native, Clerk Expo, Firebase, Supabase, Sanity, Sentry, React Query",
+    visual: "darkPhone",
+    tone: "Mobile conference companion designed for on-site utility, attendee identity, and live operational moments.",
+  },
+  {
+    id: 405,
+    title: "Jamsaq Agency Website",
+    category: "Agency Website",
+    client: "Jamsaq Agency",
+    year: "2026",
+    result: "Launch-ready studio site",
+    description: "Premium digital studio website with typed local content, SEO surfaces, protected forms, strategy documentation, QA evidence, and deployment handoff materials.",
+    role: "Next.js App Router, TypeScript, Tailwind, shadcn/ui, Server Actions, Zod, QA and launch documentation",
+    visual: "browser",
+    tone: "A refined agency system with case-study storytelling, lead capture, SEO, and launch discipline.",
+  },
+  {
+    id: 406,
+    title: "TASI Client Handover",
+    category: "Documentation System",
+    client: "TASI 2026",
+    year: "2026",
+    result: "Full handover package",
+    description: "Structured handover package covering credentials, technical docs, deployment SOPs, design assets, source-code notes, user manuals, invoices, and legal documents.",
+    role: "Technical docs, PDF/HTML generation, deployment SOP, manuals, scope/warranty/NDA/maintenance documents",
+    visual: "docs",
+    tone: "A complete client-transfer system, built so ownership, maintenance, and future changes are understandable.",
+  },
+] satisfies Array<Project & { visual: string; tone: string }>
+
+const curatedShowcase = [
+  { id: 501, title: "Asmita", category: "Web App", client: "Open-source safety project", year: "2026", result: "Privacy-preserving NCII workflow", description: "Survivor-led URL takedown and notice-routing system for documenting abuse, generating reviewed notice packages, tracking escalation, and preserving audit trails without fetching or storing intimate media.", role: "Next.js, Prisma, safety architecture, notice templates, audit trails, admin review gates, policy documentation", type: "site" },
+  { id: 502, title: "Let's Love", category: "Mobile App", client: "JAMSAQ STUDIO", year: "2026", result: "Android v1.2.37", description: "Private couple space for chat, memories, goals, todos, date ideas, shared calendar moments, daily quotes, pings, streaks, app lock, subscriptions, and Play Store release workflows.", role: "Expo SDK 54, React Native 0.81, Firebase, Cloud Functions, FCM, RevenueCat, Zustand", type: "app" },
+  { id: 503, title: "Draft Habit", category: "Android App", client: "Creator Tools", year: "2026", result: "Creator execution assistant", description: "Solo creator app that turns social media uncertainty into daily content briefs, hooks, captions, tool recommendations, idea banks, templates, repurposing, and lightweight pipeline tracking.", role: "Kotlin Android, native Android Views, Room persistence, local reminders, backend scaffold", type: "app" },
+  { id: 504, title: "Hadith of the Day", category: "Android App", client: "Faith Product", year: "2026", result: "Local app and backend foundation", description: "Calm, source-forward hadith reading app with a vertical reflection feed, saved notes, collections, source-linked corpus, reminders, widget, sharing, and reviewed remote corpus contracts.", role: "Kotlin Android, backend contracts, validation tooling, provider policy, Firebase Functions emulator checks", type: "app" },
+  { id: 505, title: "Let's Love Landing Page", category: "Landing Page", client: "Let's Love", year: "2026", result: "Early access funnel", description: "Public signup site for the Let's Love mobile app, connected to Google Forms, optional Resend email, tester group links, voucher issuing, and production domain settings.", role: "Next.js, React, GSAP, Lenis, Three.js, server action signup flow", type: "site" },
+  { id: 506, title: "ShaadiInvite", category: "SaaS Web App", client: "RSVP", year: "2026", result: "Active MVP build", description: "Mobile-first wedding invitation and RSVP platform for Indian families, planners, and couples with invite pages, event schedules, guest RSVPs, WhatsApp sharing, payments, privacy, galleries, and planner tooling.", role: "Next.js 14, Supabase, Razorpay, Cloudinary, Anthropic, analytics, Sentry", type: "site" },
+  { id: 507, title: "Shagun Box", category: "Commerce Website", client: "Shagun Box", year: "2026", result: "Complete MVP storefront", description: "Premium India-first gifting storefront for Shadi, Nikah, Eid/Ramadan, family gifting, and corporate orders with cart, customization, and WhatsApp-assisted checkout.", role: "Next.js App Router, TypeScript, Tailwind, product filters, cart, lead capture, SEO, analytics hooks", type: "site" },
+  { id: 508, title: "TASI 2026 Website", category: "Conference Website", client: "The Centre For Social Research", year: "2026", result: "Official conference platform", description: "A polished event website for programme discovery, speaker profiles, registration, sponsors, media coverage, and conference information.", role: "Next.js 16, React 19, Tailwind, Sanity, Supabase, Clerk, Sentry", type: "site" },
+  { id: 509, title: "TASI 2026 App", category: "Mobile App", client: "The Centre For Social Research", year: "2026", result: "Expo app v1.0.4", description: "Conference companion app with authentication, event data, dark visual system, camera permissions for QR check-in, notifications, media/profile support, and OTA updates.", role: "Expo, React Native, Clerk Expo, Firebase, Supabase, Sanity, Sentry, React Query", type: "app" },
+  { id: 510, title: "Time Twist", category: "AI Mobile System", client: "Productivity Lab", year: "2026", result: "AI life audit MVP foundation", description: "Android-first life audit app that maps a real 24-hour routine, detects time waste and hidden opportunity, then helps redesign tomorrow around goals, energy, relationships, work, health, and recovery.", role: "Kotlin Compose, Material 3, Room/DataStore-oriented models, TypeScript backend, PostgreSQL, OpenAPI, prompts, schemas, evals", type: "app" },
+] satisfies Array<Project & { type: 'site' | 'app' }>
+
+const showcasedSites = curatedShowcase.filter(project => project.type === 'site')
+const showcasedApps = curatedShowcase.filter(project => project.type === 'app')
+
 const services = [
   {
     title: "Websites",
@@ -138,6 +267,176 @@ const testimonials = [
   { quote: "Fast, beautiful, and it converts. The single best decision in our rebrand.", name: "Clara Voss", role: "Head of Digital, Verve" }
 ]
 
+const textReveal = {
+  hidden: ({ offset = 20, blur = 10 }: { offset?: number; blur?: number }) => ({ opacity: 0, y: offset, filter: `blur(${blur}px)` }),
+  visible: ({ delay, duration = 0.7 }: { delay: number; duration?: number }) => ({
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: { duration, delay, ease: 'easeOut' },
+  }),
+}
+
+function StoneReveal({ side }: { side: 'left' | 'right' }) {
+  const x = useMotionValue(140)
+  const y = useMotionValue(160)
+  const radiusRaw = useMotionValue(0)
+  const radius = useSpring(radiusRaw, { stiffness: 200, damping: 25 })
+  const mask = useTransform([radius, x, y], ([r, mx, my]) => (
+    `radial-gradient(circle ${r}px at ${mx}px ${my}px, black 0%, black 40%, transparent 100%)`
+  ))
+  const isLeft = side === 'left'
+  const base = isLeft
+    ? 'https://qclay.design/lovable/synex/stone-left.png'
+    : 'https://qclay.design/lovable/synex/stone-right.png'
+  const grass = isLeft
+    ? 'https://qclay.design/lovable/synex/stone-g-left.png'
+    : 'https://qclay.design/lovable/synex/stone-g-right.png'
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.9, delay: 0.5, ease: 'easeOut' }}
+      onMouseEnter={() => radiusRaw.set(120)}
+      onMouseLeave={() => radiusRaw.set(0)}
+      onMouseMove={(event) => {
+        const rect = event.currentTarget.getBoundingClientRect()
+        x.set(event.clientX - rect.left)
+        y.set(event.clientY - rect.top)
+      }}
+      className={`absolute bottom-0 ${isLeft ? 'left-0 z-[1]' : 'right-0 z-[4]'} h-[260px] w-fit cursor-crosshair sm:h-[360px] md:h-[480px] lg:h-[580px] xl:h-[650px]`}
+    >
+      <img src={base} alt="" className={`h-full w-auto object-contain ${isLeft ? 'object-left-bottom' : 'object-right-bottom'}`} />
+      <motion.img
+        src={grass}
+        alt=""
+        className={`pointer-events-none absolute inset-0 h-full w-auto object-contain ${isLeft ? 'object-left-bottom' : 'object-right-bottom'}`}
+        style={{ WebkitMaskImage: mask, maskImage: mask }}
+      />
+    </motion.div>
+  )
+}
+
+function AgencyDashboardPreview() {
+  return (
+    <div className="overflow-hidden rounded-t-xl border border-white/60 bg-white text-left shadow-[0_-8px_80px_rgba(74,21,75,0.12),0_40px_120px_rgba(0,0,0,0.16)]">
+      <div className="flex h-10 items-center justify-between border-b border-[#e6e6e6] bg-[#faf6f1] px-4">
+        <div className="flex gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-[#ff6b6b]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#ffd166]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#06d6a0]" />
+        </div>
+        <div className="text-[10px] font-semibold uppercase tracking-[1.5px] text-[#4a154b]">Jamsaq Launch Room</div>
+      </div>
+      <div className="grid gap-4 p-5 sm:grid-cols-[1.1fr_0.9fr] sm:p-7">
+        <div className="rounded-lg bg-[#f4ede4] p-5">
+          <div className="mb-3 text-xs font-bold uppercase tracking-[1.4px] text-[#4a154b]">Product build</div>
+          <div className="text-3xl font-semibold leading-none tracking-[-1px] text-[#1d1d1d] sm:text-5xl">From idea to shipped</div>
+          <p className="mt-4 max-w-[34ch] text-sm leading-relaxed text-[#696969]">A focused workspace for websites, mobile apps, and platforms moving from brief to launch.</p>
+          <div className="mt-6 grid grid-cols-3 gap-3 text-xs">
+            <div className="rounded bg-white p-3"><strong className="block text-[#4a154b]">98</strong>Perf score</div>
+            <div className="rounded bg-white p-3"><strong className="block text-[#4a154b]">6 wk</strong>First release</div>
+            <div className="rounded bg-white p-3"><strong className="block text-[#4a154b]">4.9</strong>Client rating</div>
+          </div>
+        </div>
+        <div className="space-y-3">
+          {['Discovery sprint', 'Design system', 'Engineering handoff'].map((item, index) => (
+            <div key={item} className="rounded-lg border border-[#e6e6e6] bg-white p-4">
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-[#1d1d1d]">{item}</span>
+                <span className="text-xs text-[#4a154b]">{index === 2 ? 'Ready' : 'Live'}</span>
+              </div>
+              <div className="mt-3 h-1.5 rounded-full bg-[#f4ede4]">
+                <div className="h-1.5 rounded-full bg-[#4a154b]" style={{ width: `${88 - index * 14}%` }} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function ProjectArtifact({ type, title }: { type: string; title: string }) {
+  if (type === 'phone' || type === 'darkPhone') {
+    return (
+      <div className={`artifact-phone ${type === 'darkPhone' ? 'artifact-phone-dark' : ''}`}>
+        <div className="artifact-phone-speaker" />
+        <div className="artifact-phone-screen">
+          <div className="artifact-phone-kicker">{type === 'darkPhone' ? 'TASI LIVE' : 'LET\'S LOVE'}</div>
+          <div className="artifact-phone-title">{type === 'darkPhone' ? 'Today at the venue' : 'Shared home'}</div>
+          <div className="artifact-chat-card">{type === 'darkPhone' ? 'QR check-in ready' : 'Date idea saved'}</div>
+          <div className="artifact-chat-card muted">{type === 'darkPhone' ? 'Programme updated' : 'Memory added'}</div>
+          <div className="artifact-bottom-pill">{type === 'darkPhone' ? 'Open pass' : 'Send ping'}</div>
+        </div>
+      </div>
+    )
+  }
+
+  if (type === 'commerce') {
+    return (
+      <div className="artifact-commerce">
+        <div className="artifact-box lid" />
+        <div className="artifact-box">
+          <span>Dry Fruits</span>
+          <strong>Custom Shagun</strong>
+        </div>
+        <div className="artifact-tag">WhatsApp order</div>
+      </div>
+    )
+  }
+
+  if (type === 'docs') {
+    return (
+      <div className="artifact-docs">
+        {['SOP', 'Tech Docs', 'Legal'].map((label, index) => (
+          <div key={label} className="artifact-doc" style={{ transform: `translate(${index * 18}px, ${index * -10}px) rotate(${index * 2 - 3}deg)` }}>
+            <div className="artifact-doc-line wide" />
+            <div className="artifact-doc-line" />
+            <div className="artifact-doc-label">{label}</div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  if (type === 'event') {
+    return (
+      <div className="artifact-event">
+        <div className="artifact-event-date">2026</div>
+        <div className="artifact-event-title">TASI</div>
+        <div className="artifact-event-grid">
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="artifact-browser">
+      <div className="artifact-browser-bar">
+        <span />
+        <span />
+        <span />
+      </div>
+      <div className="artifact-browser-body">
+        <div className="artifact-browser-kicker">{title}</div>
+        <div className="artifact-browser-headline" />
+        <div className="artifact-browser-headline short" />
+        <div className="artifact-browser-row">
+          <div />
+          <div />
+          <div />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // =========================================
 // MAIN APP
 // =========================================
@@ -154,9 +453,9 @@ function App() {
   // Refs for Lenis and scroll animations
   const lenisRef = useRef<Lenis | null>(null)
   const heroRef = useRef<HTMLDivElement>(null)
-  const mockup1Ref = useRef<HTMLDivElement>(null) // Website mockup
-  const mockup2Ref = useRef<HTMLDivElement>(null) // Phone mockup
-  const mockup3Ref = useRef<HTMLDivElement>(null) // Platform mockup
+  const mockup1Ref = useRef<HTMLDivElement>(null)
+  const mockup2Ref = useRef<HTMLDivElement>(null)
+  const mockup3Ref = useRef<HTMLDivElement>(null)
 
   const statsRef = useRef<HTMLDivElement>(null)
   const workRef = useRef<HTMLDivElement>(null)
@@ -229,22 +528,6 @@ function App() {
         })
       }
 
-      // Scroll-based parallax on the three floating mockups (different speeds for depth)
-      const mockups = [mockup1Ref.current, mockup2Ref.current, mockup3Ref.current].filter(Boolean)
-      mockups.forEach((mock, i) => {
-        const yValue = i === 0 ? -45 : i === 1 ? -85 : -25 // different parallax speeds
-        const scrubValue = 0.9 + i * 0.25
-        gsap.to(mock, {
-          y: yValue,
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: scrubValue,
-          },
-        })
-      })
-
       // --- STATS: Count-up + light parallax on the stat cards ---
       if (statsRef.current) {
         const numbers = statsRef.current.querySelectorAll('.number')
@@ -291,6 +574,21 @@ function App() {
           })
         })
       }
+
+      const revealEls = document.querySelectorAll('[data-reveal]')
+      revealEls.forEach((el) => {
+        gsap.from(el, {
+          y: 28,
+          opacity: 0,
+          filter: 'blur(10px)',
+          duration: 0.75,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 82%',
+          },
+        })
+      })
 
       // --- WORK SECTION: staggered reveal + parallax on cards ---
       if (workRef.current) {
@@ -417,8 +715,8 @@ function App() {
   return (
     <div className="min-h-screen bg-[var(--canvas)] text-[var(--ink)] selection:bg-[#4a154b] selection:text-white font-sans">
       {/* NAV — nav-bar-light */}
-      <nav className="nav-bar-light fixed top-0 left-0 right-0 z-50">
-        <div className="container flex items-center justify-between h-20">
+      <nav className="nav-bar-light fixed top-0 left-0 right-0 z-50 bg-white/85 backdrop-blur-xl">
+        <div className="container flex h-20 items-center justify-between gap-5">
           <div onClick={() => scrollTo('hero')} className="flex items-center gap-2.5 cursor-pointer">
             <div className="w-6 h-6 rounded bg-[#4a154b] flex items-center justify-center">
               <span className="text-white text-[13px] font-bold tracking-[-0.5px]">J</span>
@@ -427,18 +725,18 @@ function App() {
           </div>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-1 text-sm">
+          <div className="hidden lg:flex items-center gap-1 text-sm">
             <button onClick={() => scrollTo('work')} className="nav-link">Work</button>
             <button onClick={() => scrollTo('engagements')} className="nav-link">Engagements</button>
             <button onClick={() => scrollTo('process')} className="nav-link">Process</button>
           </div>
 
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex shrink-0 items-center gap-3">
             <button onClick={() => scrollTo('contact')} className="button-secondary-pill text-sm">Talk to us</button>
             <button onClick={() => scrollTo('contact')} className="button-primary-pill text-sm">Start a project</button>
           </div>
 
-          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden p-2" aria-label="Menu">
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 md:hidden" aria-label="Menu">
             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
@@ -447,7 +745,7 @@ function App() {
         <AnimatePresence>
           {isMobileMenuOpen && (
             <div className="md:hidden mobile-menu px-6 py-6 text-sm space-y-4">
-              {['work', 'engagements', 'process', 'contact'].map(id => (
+              {['work', 'services', 'engagements', 'process', 'contact'].map(id => (
                 <button key={id} onClick={() => scrollTo(id)} className="block w-full text-left py-1 nav-link capitalize">{id}</button>
               ))}
               <div className="pt-3 flex flex-col gap-3">
@@ -460,7 +758,59 @@ function App() {
       </nav>
 
       {/* HERO — pastel mesh + floating mockups with parallax */}
-      <section id="hero" ref={heroRef} className="hero pastel-mesh">
+      <section id="hero" ref={heroRef} className="hero relative min-h-screen overflow-hidden bg-[#f2f2f0] px-5 pt-[96px] text-center sm:pt-[118px] md:pt-[140px]">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_30%,rgba(220,220,215,0.6),transparent_70%)]" />
+        <div className="hero-text relative z-10 mx-auto flex max-w-[820px] flex-col items-center">
+          <motion.div custom={{ offset: 16, blur: 8, delay: 0.1, duration: 0.6 }} initial="hidden" animate="visible" variants={textReveal} className="mb-3 text-xs font-medium text-black/50 sm:mb-4 sm:text-[13px] md:text-sm">
+            DIGITAL PRODUCTS, CAREFULLY MADE
+          </motion.div>
+          <h1 className="text-[34px] font-medium leading-[1.05] tracking-[-1.36px] sm:text-[44px] md:text-[56px] lg:text-[68px]">
+            <motion.span custom={{ offset: 24, blur: 12, delay: 0.2 }} initial="hidden" animate="visible" variants={textReveal} className="block text-black/20">A New Standard</motion.span>
+            <motion.span custom={{ offset: 24, blur: 12, delay: 0.32 }} initial="hidden" animate="visible" variants={textReveal} className="block text-[#05050c]">for Digital Craft</motion.span>
+          </h1>
+          <motion.p custom={{ offset: 20, blur: 8, delay: 0.45 }} initial="hidden" animate="visible" variants={textReveal} className="mt-4 max-w-[460px] text-sm font-medium leading-relaxed text-black/20 sm:text-base md:mt-5 md:text-lg">
+            Jamsaq builds websites, mobile apps, and web platforms with premium motion, precise interfaces, and production-grade engineering.
+          </motion.p>
+          <motion.div custom={{ offset: 18, blur: 8, delay: 0.58 }} initial="hidden" animate="visible" variants={textReveal} className="mt-7 flex flex-wrap justify-center gap-3">
+            <button onClick={() => scrollTo('work')} className="button-primary-pill !bg-[#111] hover:!bg-[#333]">See our work</button>
+            <button onClick={() => scrollTo('contact')} className="button-secondary-pill">Begin a conversation</button>
+          </motion.div>
+        </div>
+
+        <StoneReveal side="left" />
+        <StoneReveal side="right" />
+
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-[3] flex justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 80, filter: 'blur(8px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 1, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="w-[92vw] max-w-[944px] sm:w-[72vw] md:w-[60vw] lg:w-[54vw]"
+          >
+            <AgencyDashboardPreview />
+          </motion.div>
+        </div>
+
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-[6] h-[220px] bg-gradient-to-t from-[#05050c]/85 via-[#05050c]/50 to-transparent" />
+        <motion.button
+          onClick={() => scrollTo('services')}
+          initial={{ opacity: 0, y: 0 }}
+          animate={{ opacity: 1, y: [0, -4, 0] }}
+          transition={{ opacity: { duration: 0.6, delay: 1.2 }, y: { duration: 2.5, repeat: Infinity, ease: 'easeInOut' } }}
+          className="absolute bottom-3 left-0 right-0 z-20 mx-auto flex w-fit items-center gap-2 text-sm font-medium tracking-[-0.28px] text-white"
+        >
+          <motion.img
+            src="https://qclay.design/lovable/synex/star.svg"
+            alt=""
+            className="h-3.5 w-3.5"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          Scroll to explore
+        </motion.button>
+      </section>
+
+      <section className="hidden">
         <div className="container">
           <div className="hero-text max-w-[720px]">
             <div className="pill-cap-shade mb-4">EST. 2019 • NEW YORK • LONDON</div>
@@ -546,9 +896,9 @@ function App() {
       </section>
 
       {/* SERVICES — card-feature-cream */}
-      <section id="services" className="section bg-[#f4ede4]">
+      <section id="services" className="section editorial-band relative overflow-hidden">
         <div className="container">
-          <div className="text-center mb-10">
+          <div data-reveal className="text-center mb-10">
             <div className="pill-cap-shade mb-3">WHAT WE MAKE</div>
             <h2 className="display-xl tracking-[-0.5px]">Three kinds of work.<br />One standard of care.</h2>
             <p className="body-lg text-[#696969] max-w-[42ch] mx-auto mt-4">
@@ -559,12 +909,12 @@ function App() {
           {/* Interactive Service Showcase */}
           <div className="max-w-5xl mx-auto">
             {/* Service Selectors - elegant interactive tabs */}
-            <div className="flex flex-col md:flex-row justify-center gap-3 mb-8">
+            <div data-reveal className="flex flex-col md:flex-row justify-center gap-3 mb-8">
               {services.map((service, index) => (
                 <button
                   key={index}
                   onClick={() => setActiveServiceIndex(index)}
-                  className={`group flex-1 md:flex-none px-8 py-4 rounded-[90px] text-left md:text-center transition-all border flex items-center gap-3 ${
+                  className={`motion-card group flex-1 md:flex-none px-8 py-4 rounded-[90px] text-left md:text-center transition-all border flex items-center gap-3 ${
                     activeServiceIndex === index 
                       ? 'bg-[#4a154b] text-white border-[#4a154b] shadow-lg' 
                       : 'bg-white hover:bg-[#f9f0ff] border-[#e6e6e6] text-[#1d1d1d] hover:border-[#4a154b]'
@@ -586,7 +936,7 @@ function App() {
             </div>
 
             {/* Attractive Live Preview Area */}
-            <div className="relative bg-white rounded-[24px] border border-[#e6e6e6] overflow-hidden shadow-xl min-h-[380px] md:min-h-[420px] flex items-center justify-center p-4 md:p-8 transition-all duration-500">
+            <div data-reveal className="surface-halo relative bg-white rounded-[24px] border border-[#e6e6e6] overflow-hidden shadow-xl min-h-[380px] md:min-h-[420px] flex items-center justify-center p-4 md:p-8 transition-all duration-500">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeServiceIndex}
@@ -710,7 +1060,7 @@ function App() {
       <section ref={statsRef} className="container section border-t border-[var(--hairline)]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {stats.map((stat, idx) => (
-            <div key={idx} className="card-stat flex flex-col justify-center">
+            <div key={idx} data-reveal className="card-stat motion-card flex flex-col justify-center">
               <div className="number">{stat.number}</div>
               <div className="caption text-[#696969] mt-1">{stat.label}</div>
             </div>
@@ -720,17 +1070,88 @@ function App() {
 
       {/* WORK */}
       <section id="work" ref={workRef} className="section container">
-        <div className="flex items-end justify-between mb-8">
+        <div data-reveal className="flex items-end justify-between mb-8">
           <div>
-            <div className="pill-cap-shade mb-2">SELECTED WORK</div>
-            <h3 className="display-xl tracking-[-0.5px]">Projects we are proud to have shaped.</h3>
+            <div className="pill-cap-shade mb-2">SELECTED NEAR-LAUNCH WORK</div>
+            <h3 className="display-xl tracking-[-0.5px]">Finished enough to feel real.</h3>
+            <p className="body-lg text-[#696969] max-w-[54ch] mt-3">
+              A tighter edit of the strongest projects in your workspace, presented as clean case-study entries rather than a directory listing.
+            </p>
           </div>
           <button onClick={() => scrollTo('contact')} className="hidden md:block button-secondary-pill text-sm">Start your own</button>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="clean-showcase space-y-14">
+          {[
+            { title: "Sites", desc: "Websites, storefronts, and SaaS products with strong launch surfaces.", items: showcasedSites },
+            { title: "Apps", desc: "Mobile and Android-first products with real product loops and release foundations.", items: showcasedApps },
+          ].map(section => (
+            <div key={section.title} data-reveal>
+              <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <div className="micro-cap text-[#4a154b] mb-2">{section.title === 'Sites' ? 'WEBSITES & WEB APPS' : 'MOBILE PRODUCTS'}</div>
+                  <h4 className="display-md tracking-[-0.3px]">{section.title}</h4>
+                  <p className="caption text-[#696969] max-w-[56ch] mt-2">{section.desc}</p>
+                </div>
+                <div className="text-sm font-semibold text-[#4a154b]">{section.items.length} projects</div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-5">
+                {section.items.map(p => (
+                  <button key={p.id} onClick={() => openProject(p)} className="portfolio-row motion-card text-left">
+                    <div className="portfolio-row-top">
+                      <div>
+                        <div className="heading-md tracking-[-0.2px]">{p.title}</div>
+                        <div className="caption text-[#696969] mt-1">{p.client} - {p.year}</div>
+                      </div>
+                      <span className="portfolio-pill">{p.category}</span>
+                    </div>
+                    <p className="body-md text-[#696969] mt-5">{p.description}</p>
+                    <div className="portfolio-meta">
+                      <span>{p.result}</span>
+                      <span className="inline-flex items-center">Details <ArrowRight size={15} className="ml-1.5" /></span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="hidden">
+          {projectGroups.map(group => (
+            <div key={group.title}>
+              <div>
+                <div>
+                  <div className="micro-cap text-[#4a154b] mb-2">{group.kicker}</div>
+                  <h4 className="heading-lg tracking-[-0.2px]">{group.title}</h4>
+                  <p className="caption text-[#696969] max-w-[62ch] mt-2">{group.desc}</p>
+                </div>
+                <div className="text-sm font-semibold text-[#4a154b]">{group.items.length} projects</div>
+              </div>
+
+              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+                {group.items.map(p => (
+                  <div key={p.id} onClick={() => openProject(p)} className="work-card motion-card p-6 cursor-pointer group">
+                    <div className="flex justify-between items-start gap-4">
+                      <div>
+                        <div className="heading-sm tracking-[-0.2px] group-hover:text-[#4a154b] transition-colors">{p.title}</div>
+                        <div className="caption text-[#696969] mt-0.5">{p.client} - {p.year}</div>
+                      </div>
+                      <div className="rounded-full bg-[#f4ede4] px-3 py-1 text-[11px] font-semibold text-[#4a154b] whitespace-nowrap">{p.category}</div>
+                    </div>
+                    <div className="mt-5 text-[#696969] body-md leading-snug">{p.description}</div>
+                    <div className="mt-5 text-xs font-medium tracking-wide text-[#4a154b]">{p.result}</div>
+                    <div className="mt-5 pt-4 border-t border-[#e6e6e6] flex items-center text-sm text-[#4a154b] group-hover:gap-1 transition-all">
+                      View details <ArrowRight size={15} className="ml-1.5" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
           {projects.map(p => (
-            <div key={p.id} onClick={() => openProject(p)} className="work-card p-7 cursor-pointer group">
+            <div key={p.id} onClick={() => openProject(p)} className="work-card motion-card p-7 cursor-pointer group">
               <div className="flex justify-between items-start">
                 <div>
                   <div className="heading-lg tracking-[-0.2px] group-hover:text-[#4a154b] transition-colors">{p.title}</div>
@@ -748,16 +1169,16 @@ function App() {
       </section>
 
       {/* ENGAGEMENTS / PRICING — exact card-pricing + featured */}
-      <section id="engagements" ref={engagementsRef} className="section bg-[#f9f0ff]">
+      <section id="engagements" ref={engagementsRef} className="section editorial-band editorial-band-lavender relative overflow-hidden">
         <div className="container">
-          <div className="text-center mb-10">
+          <div data-reveal className="text-center mb-10">
             <div className="pill-cap-shade mb-3">HOW WE PARTNER</div>
             <h2 className="display-xl tracking-[-0.4px]">Clear starting points.<br />Generous scope.</h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 max-w-[1080px] mx-auto">
             {engagements.map((e, idx) => (
-              <div key={idx} className={e.featured ? "card-pricing-featured" : "card-pricing"}>
+              <div key={idx} className={e.featured ? "card-pricing-featured motion-card" : "card-pricing motion-card"}>
                 <div className="micro-cap mb-3 opacity-70">STARTING AT</div>
                 <div className={e.featured ? "text-white" : ""}>
                   <div className="heading-lg mb-1">{e.name}</div>
@@ -776,14 +1197,14 @@ function App() {
 
       {/* PROCESS */}
       <section id="process" ref={processRef} className="section container">
-        <div className="text-center mb-10">
+        <div data-reveal className="text-center mb-10">
           <div className="pill-cap-shade mb-3">HOW WE WORK</div>
           <h2 className="display-xl tracking-[-0.5px]">A clear, deliberate process.</h2>
         </div>
 
         <div className="grid md:grid-cols-4 gap-6">
           {process.map((step, i) => (
-            <div key={i} className="card-feature-cream">
+            <div key={i} className="card-feature-cream motion-card">
               <div className="micro-cap text-[#4a154b] mb-4">{step.num}</div>
               <div className="heading-md mb-3">{step.title}</div>
               <p className="body-md text-[#696969]">{step.desc}</p>
@@ -794,14 +1215,14 @@ function App() {
 
       {/* TESTIMONIALS */}
       <section className="section container">
-        <div className="mb-8">
+        <div data-reveal className="mb-8">
           <div className="pill-cap-shade mb-2">FROM OUR PARTNERS</div>
           <h2 className="display-xl tracking-[-0.5px]">What our clients say.</h2>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
-            <div key={i} className="card-pricing">
+            <div key={i} data-reveal className="card-pricing motion-card">
               <div className="body-lg leading-snug">“{t.quote}”</div>
               <div className="mt-8 pt-5 border-t border-[#e6e6e6]">
                 <div className="font-semibold">{t.name}</div>
@@ -813,7 +1234,7 @@ function App() {
       </section>
 
       {/* CLOSING AUBERGINE BAND — card-aubergine-band */}
-      <div className="card-aubergine-band mt-8">
+      <div data-reveal className="card-aubergine-band closing-band mt-8">
         <div className="container text-center">
           <div className="max-w-[620px] mx-auto">
             <div className="text-[15px] tracking-[1.5px] text-[#d9bdde] mb-3">READY WHEN YOU ARE</div>
@@ -825,12 +1246,12 @@ function App() {
 
       {/* CONTACT */}
       <section id="contact" className="section container">
-        <div className="max-w-[860px]">
+        <div data-reveal className="max-w-[860px]">
           <div className="pill-cap-shade mb-3">LET’S TALK</div>
           <h2 className="display-xl tracking-[-0.5px] mb-8">Tell us about the thing<br />you want to bring into the world.</h2>
         </div>
 
-        <div className="max-w-[780px]">
+        <div data-reveal className="max-w-[780px]">
           <AnimatePresence mode="wait">
             {!isSubmitted ? (
               <form onSubmit={handleSubmit} className="space-y-5">

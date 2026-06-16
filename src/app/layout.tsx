@@ -9,7 +9,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Jamsaq Agency — Websites, Mobile Apps & Web Platforms',
+  title: 'Jamsaq Agency - Websites, Mobile Apps & Web Platforms',
   description: 'Jamsaq partners with ambitious teams to craft exceptional websites, mobile apps, and web platforms. Delicate craft. Enduring results.',
   icons: {
     icon: '/favicon.svg',
