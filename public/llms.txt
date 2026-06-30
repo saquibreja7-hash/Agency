@@ -1,0 +1,39 @@
+# JAMSAQ STUDIO
+
+> JAMSAQ STUDIO is a product design and engineering studio that builds websites, mobile apps, and AI systems for ambitious teams. Founded and led by Saquib. Delicate craft, enduring results.
+
+JAMSAQ STUDIO partners with founders, organisations, and product teams to take ideas from concept to production: marketing and commerce websites, SaaS web apps, native Android and Expo mobile apps, and AI-assisted systems. Work emphasises production fundamentals — type safety, observability, security, accessibility, and careful launch and handover.
+
+## Services
+
+- Websites & Commerce: marketing sites, storefronts, event and conference websites, SaaS surfaces, built with Next.js, React, and Tailwind CSS.
+- Mobile Apps: native Android (Kotlin / Jetpack Compose) and cross-platform (Expo / React Native) products with real user flows, persistence, notifications, and store release paths.
+- AI Systems: retrieval pipelines, local-first AI tooling, and documentation-heavy or safety-sensitive systems built with reviewability in mind.
+- Design & Production: high-fidelity prototypes, interaction systems, design languages, deployment, and ongoing care.
+
+## Selected Work
+
+- TASI 2026 Website & App — Conference platform and companion app for Centre For Social Research (Next.js, React Native/Expo, Sanity, Supabase, Clerk).
+- Meri Asmita — Survivor-led, privacy-preserving digital safety platform for URL takedown and notice routing (Next.js, Prisma).
+- Let's Love — Private couple space mobile app: chat, memories, goals, and shared moments (Expo, React Native, Firebase, RevenueCat). Available on Android.
+- Shagun Box — Premium India-first gifting storefront (Next.js App Router, TypeScript, Tailwind).
+- ShaadiInvite — Mobile-first wedding invitation and RSVP platform (Next.js, Supabase, Razorpay).
+- Hadith of the Day — Source-forward hadith reading app (Kotlin Android).
+
+## Process
+
+1. Discover — research, constraints, and alignment before design.
+2. Design — high-fidelity prototypes and a living design language.
+3. Build — production-grade, type-safe work with weekly demos.
+4. Launch & Care — careful deployment, training, and an ongoing relationship.
+
+## Pages
+
+- Home: https://jamsaq.in
+- Privacy Policy: https://jamsaq.in/privacy
+- Terms of Service: https://jamsaq.in/terms
+
+## Contact
+
+- Email: hello@jamsaq.in
+- Website: https://jamsaq.in
