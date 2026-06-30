@@ -435,11 +435,11 @@ function App() {
             <button onClick={() => scrollTo('process')} className="nav-link">Process</button>
           </div>
 
-          <div className="hidden md:flex shrink-0 items-center gap-3 justify-self-end">
+          <div className="hidden lg:flex shrink-0 items-center gap-3 justify-self-end">
             <button onClick={() => scrollTo('contact')} className="button-primary-pill text-sm">Start a project</button>
           </div>
 
-          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 md:hidden justify-self-end" aria-label="Menu">
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 lg:hidden justify-self-end" aria-label="Menu">
             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
@@ -447,7 +447,7 @@ function App() {
         {/* Mobile menu */}
         <AnimatePresence>
           {isMobileMenuOpen && (
-            <div className="md:hidden mobile-menu px-6 py-6 text-sm space-y-4">
+            <div className="lg:hidden mobile-menu px-6 py-6 text-sm space-y-4">
               {['work', 'services', 'engagements', 'process', 'contact'].map(id => (
                 <button key={id} onClick={() => scrollTo(id)} className="block w-full text-left py-1 nav-link capitalize">{id}</button>
               ))}
