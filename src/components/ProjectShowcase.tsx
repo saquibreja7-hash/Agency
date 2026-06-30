@@ -3,20 +3,9 @@
 import { useRef, useState, useEffect } from 'react'
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+import type { Project } from '../content'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-
-interface Project {
-  id: number
-  title: string
-  category: string
-  client: string
-  year: string
-  result: string
-  description: string
-  role: string
-  type: 'site' | 'app'
-}
 
 interface ProjectShowcaseProps {
   projects: Project[]
@@ -423,18 +412,20 @@ function BrowserChrome({ children, dark = false, url = 'jamsaq.com', hovered = f
 
 // ─── Project Card ─────────────────────────────────────────────────────────────
 
-const PROJECT_META: Record<number, { url: string; liveUrl?: string; dark?: boolean }> = {
-  501: { url: 'meriasmita.org', liveUrl: 'https://meriasmita.org/' },
+// Card presentation only (browser-chrome URL + dark theme). Live URLs come from the project itself.
+const PROJECT_META: Record<number, { url: string; dark?: boolean }> = {
+  501: { url: 'meriasmita.org' },
   502: { url: 'letslove.jamsaq.in' },
   504: { url: 'hadithoftheday.app' },
-  505: { url: 'letslove.jamsaq.in', liveUrl: 'https://letslove.jamsaq.in/' },
-  508: { url: 'trustandsafetyindia.org', liveUrl: 'https://trustandsafetyindia.org/' },
+  505: { url: 'letslove.jamsaq.in' },
+  508: { url: 'trustandsafetyindia.org' },
   509: { url: 'trustandsafetyindia.org' },
 }
 
 function ProjectCard({ project, onOpen }: { project: Project; onOpen: (p: Project) => void }) {
   const [hovered, setHovered] = useState(false)
   const meta = PROJECT_META[project.id] ?? { url: 'jamsaq.com' }
+  const liveUrl = project.liveUrl ?? undefined
 
   return (
     <TiltCard className="cursor-pointer group h-full">
@@ -449,7 +440,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: (p: Projec
         {/* Thumbnail — clicking it opens the live site if available, otherwise the modal */}
         <div
           className="relative overflow-hidden"
-          onClick={meta.liveUrl ? (e) => { e.stopPropagation(); window.open(meta.liveUrl, '_blank', 'noopener,noreferrer') } : undefined}
+          onClick={liveUrl ? (e) => { e.stopPropagation(); window.open(liveUrl, '_blank', 'noopener,noreferrer') } : undefined}
         >
           <BrowserChrome dark={meta.dark} url={meta.url} hovered={hovered}>
             <ProjectPreview id={project.id} hovered={hovered} />
@@ -491,9 +482,9 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: (p: Projec
           >
             <span className="text-[#696969] truncate max-w-[65%]">{project.role}</span>
             <div className="flex items-center gap-3 shrink-0">
-              {meta.liveUrl && (
+              {liveUrl && (
                 <a
-                  href={meta.liveUrl}
+                  href={liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={e => e.stopPropagation()}

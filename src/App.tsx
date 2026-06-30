@@ -8,6 +8,8 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ProjectShowcase } from './components/ProjectShowcase'
 import { submitContact } from './actions/contact'
+import { projects, services, capabilities, engagements, process, testimonials } from './content'
+import type { Project } from './content'
 
 // Register GSAP plugins once
 gsap.registerPlugin(ScrollTrigger)
@@ -15,16 +17,6 @@ gsap.registerPlugin(ScrollTrigger)
 // =========================================
 // TYPES
 // =========================================
-interface Project {
-  id: number
-  title: string
-  category: string
-  client: string
-  year: string
-  result: string
-  description: string
-  role: string
-}
 
 interface FormData {
   name: string
@@ -35,279 +27,6 @@ interface FormData {
   message: string
 }
 
-// =========================================
-// CONTENT — Adapted to Slacc design language
-// =========================================
-
-const projectGroups = [
-  {
-    title: "Websites & Commerce",
-    kicker: "PUBLIC DIGITAL EXPERIENCES",
-    desc: "Launch-ready marketing, commerce, event, and SaaS surfaces with editorial presentation and production fundamentals.",
-    items: [
-      { id: 101, title: "TASI 2026 Website", category: "Website", client: "Centre For Social Research", year: "2026", result: "Conference website", description: "Official event website covering programme, speakers, registration, sponsorship, media coverage, and event information for TASI 2026.", role: "Next.js 16, React 19, Tailwind CSS, Sanity/Supabase/Clerk integrations" },
-      { id: 102, title: "Shagun Box", category: "Commerce Website", client: "Shagun Box", year: "2026", result: "Complete MVP storefront", description: "India-focused premium gifting storefront for Shadi, Nikah, Eid/Ramadan, family gifting, and corporate orders with customization, cart, checkout-style requests, and WhatsApp handoff.", role: "Next.js App Router, TypeScript, Tailwind, product filters, cart, lead capture, SEO, analytics hooks" },
-      { id: 103, title: "ShaadiInvite", category: "SaaS Web App", client: "RSVP", year: "2026", result: "Active MVP build", description: "Mobile-first wedding invitation and RSVP platform for Indian families, planners, and couples with invite pages, event schedules, guest RSVPs, WhatsApp sharing, payments, privacy, galleries, and planner tooling.", role: "Next.js 14, Supabase, Razorpay, Cloudinary, Anthropic, analytics, Sentry" },
-      { id: 104, title: "JAMSAQ STUDIO Website", category: "Website", client: "JAMSAQ STUDIO", year: "2026", result: "Launch-ready agency site", description: "Premium digital studio website with typed local content, SEO surfaces, form protection, strategy documentation, QA evidence, and deployment handoff materials.", role: "Next.js App Router, TypeScript, Tailwind, shadcn/ui, Server Actions, Zod, QA and launch documentation" },
-      { id: 105, title: "Let's Love Landing Page", category: "Landing Page", client: "Let's Love", year: "2026", result: "Landing Page", description: "Public signup site for the Let's Love mobile app, connected to Google Forms, optional Resend email, tester group links, voucher issuing, and production domain settings.", role: "Next.js, React, GSAP, Lenis, Three.js, server action signup flow" },
-    ] as Project[],
-  },
-  {
-    title: "Mobile Apps",
-    kicker: "NATIVE PRODUCT SYSTEMS",
-    desc: "Android and Expo products with real user flows, persistence, notifications, privacy controls, and release paths.",
-    items: [
-      { id: 201, title: "Let's Love", category: "Mobile App", client: "JAMSAQ STUDIO", year: "2026", result: "Android v1.2.37", description: "Private couple space for chat, memories, goals, todos, date ideas, calendar moments, daily quotes, pings, streaks, app lock, subscriptions, and Play Store release workflows.", role: "Expo SDK 54, React Native 0.81, Firebase Auth/Firestore/Storage/Functions/FCM, RevenueCat, Zustand" },
-      { id: 202, title: "TASI 2026 App", category: "Mobile App", client: "Centre For Social Research", year: "2026", result: "Expo app v1.0.4", description: "Conference companion app with dark visual system, authentication, event data surfaces, camera permissions for QR check-in, notifications, media/profile support, and OTA updates.", role: "Expo, React Native, Clerk Expo, Firebase, Supabase, Sanity, Sentry, React Query" },
-      { id: 203, title: "AI Note Researcher", category: "Android App", client: "Internal Product Lab", year: "2026", result: "MVP alpha/private beta", description: "Local-first Kotlin app that turns rough notes, shopping research, grocery lists, books, and app ideas into structured decision cards with citations, provenance, privacy controls, search, and export.", role: "Kotlin, Jetpack Compose, Room, WorkManager, FTS search, privacy controls, local template generation" },
-      { id: 204, title: "Draft Habit", category: "Android App", client: "Creator Tools", year: "2026", result: "Creator execution assistant", description: "Solo creator app that turns social media uncertainty into daily content briefs, hooks, captions, tool recommendations, idea banks, templates, repurposing, and lightweight pipeline tracking.", role: "Kotlin Android, native Android Views, Room persistence, local reminders, backend scaffold" },
-      { id: 205, title: "Hadith of the Day", category: "Android App", client: "Faith Product", year: "2026", result: "Android v0.9.1", description: "Calm, source-forward hadith reading app with a vertical reflection feed, saved notes, collections, source-linked corpus, reminders, widget, sharing, and reviewed remote corpus contracts.", role: "Kotlin Android, backend contracts, validation tooling, provider policy, Firebase Functions emulator checks" },
-      { id: 206, title: "Time Twist", category: "AI Mobile System", client: "Productivity Lab", year: "2026", result: "AI life audit MVP foundation", description: "Android-first life audit app that maps a real 24-hour routine, detects time waste and hidden opportunity, then helps redesign tomorrow around goals, energy, relationships, work, health, and recovery.", role: "Kotlin Compose, Material 3, Room/DataStore-oriented models, TypeScript backend, PostgreSQL, OpenAPI, prompts, schemas, evals" },
-    ] as Project[],
-  },
-  {
-    title: "Systems & Documentation",
-    kicker: "OPERATIONS, SAFETY, HANDOVER",
-    desc: "Sensitive workflows, client handovers, automation, and documentation-heavy systems built with reviewability in mind.",
-    items: [
-      { id: 301, title: "Asmita", category: "Safety System", client: "Open-source safety project", year: "2026", result: "Digital Safety Platform", description: "Survivor-led URL takedown and notice-routing system for documenting abuse, generating reviewed notice packages, tracking escalation, and preserving audit trails without fetching or storing intimate media.", role: "Next.js, Prisma, safety architecture, notice templates, audit trails, admin review gates, policy documentation" },
-      { id: 302, title: "TASI Client Handover", category: "Documentation System", client: "TASI 2026", year: "2026", result: "Full handover package", description: "Structured client handover package covering credentials, technical documentation, deployment SOPs, design assets, source-code notes, user manuals, invoices, and legal documents.", role: "Technical docs, PDF/HTML generation, deployment SOP, manuals, scope/warranty/NDA/maintenance documents" },
-      { id: 303, title: "Speaker & Seminar Documents", category: "Document Automation", client: "Research / seminar workflow", year: "2026", result: "Formatted academic deliverables", description: "Document-production workspace for seminar papers, footnotes, references, numbering, render checks, speaker spreadsheets, and publishing polish.", role: "Python docx tooling, render verification, spreadsheet compilation, academic formatting and footnote workflows" },
-    ] as Project[],
-  },
-]
-
-const featuredProjects = [
-  {
-    id: 401,
-    title: "TASI 2026 Website",
-    category: "Conference Website",
-    client: "Centre For Social Research",
-    year: "2026",
-    result: "Official conference platform",
-    description: "A polished event website for programme discovery, speaker profiles, registration, sponsors, media coverage, and conference information.",
-    role: "Next.js 16, React 19, Tailwind, Sanity, Supabase, Clerk, Sentry",
-    visual: "event",
-    tone: "Deep event system with editorial programme cards, speaker surfaces, and registration flow.",
-  },
-  {
-    id: 402,
-    title: "Shagun Box",
-    category: "Commerce Website",
-    client: "Shagun Box",
-    year: "2026",
-    result: "Complete MVP storefront",
-    description: "Premium India-first gifting storefront for Shadi, Nikah, Eid/Ramadan, family gifting, and corporate orders with cart, customization, and WhatsApp-assisted checkout.",
-    role: "Next.js App Router, TypeScript, Tailwind, product filters, cart, lead capture, SEO, analytics hooks",
-    visual: "commerce",
-    tone: "Warm storefront system with occasion-led collections, personalization controls, and trust-building checkout handoff.",
-  },
-  {
-    id: 403,
-    title: "Let's Love",
-    category: "Mobile App",
-    client: "JAMSAQ STUDIO",
-    year: "2026",
-    result: "Android v1.2.37",
-    description: "Private couple space for chat, memories, goals, todos, date ideas, shared calendar moments, daily quotes, pings, streaks, app lock, and subscriptions.",
-    role: "Expo SDK 54, React Native 0.81, Firebase, Cloud Functions, FCM, RevenueCat, Zustand",
-    visual: "phone",
-    tone: "A complete relationship app with intimate rituals, realtime messaging, and Play Store release workflows.",
-  },
-  {
-    id: 404,
-    title: "TASI 2026 App",
-    category: "Mobile App",
-    client: "Centre For Social Research",
-    year: "2026",
-    result: "Expo app v1.0.4",
-    description: "Conference companion app with authentication, event data, dark visual system, camera permissions for QR check-in, notifications, media/profile support, and OTA updates.",
-    role: "Expo, React Native, Clerk Expo, Firebase, Supabase, Sanity, Sentry, React Query",
-    visual: "darkPhone",
-    tone: "Mobile conference companion designed for on-site utility, attendee identity, and live operational moments.",
-  },
-  {
-    id: 405,
-    title: "JAMSAQ STUDIO Website",
-    category: "Agency Website",
-    client: "JAMSAQ STUDIO",
-    year: "2026",
-    result: "Launch-ready studio site",
-    description: "Premium digital studio website with typed local content, SEO surfaces, protected forms, strategy documentation, QA evidence, and deployment handoff materials.",
-    role: "Next.js App Router, TypeScript, Tailwind, shadcn/ui, Server Actions, Zod, QA and launch documentation",
-    visual: "browser",
-    tone: "A refined agency system with case-study storytelling, lead capture, SEO, and launch discipline.",
-  },
-  {
-    id: 406,
-    title: "TASI Client Handover",
-    category: "Documentation System",
-    client: "TASI 2026",
-    year: "2026",
-    result: "Full handover package",
-    description: "Structured handover package covering credentials, technical docs, deployment SOPs, design assets, source-code notes, user manuals, invoices, and legal documents.",
-    role: "Technical docs, PDF/HTML generation, deployment SOP, manuals, scope/warranty/NDA/maintenance documents",
-    visual: "docs",
-    tone: "A complete client-transfer system, built so ownership, maintenance, and future changes are understandable.",
-  },
-] satisfies Array<Project & { visual: string; tone: string }>
-
-const curatedShowcase = [
-  { id: 501, title: "Meri Asmita", category: "Web App", client: "Open-source safety project", year: "2026", result: "Digital Safety Platform", description: "Survivor-led URL takedown and notice-routing system for documenting abuse, generating reviewed notice packages, tracking escalation, and preserving audit trails without fetching or storing intimate media.", role: "Next.js, Prisma, safety architecture, notice templates, audit trails, admin review gates, policy documentation", type: "site" },
-  { id: 502, title: "Let's Love", category: "Mobile App", client: "JAMSAQ STUDIO", year: "2026", result: "Android v1.2.37", description: "Private couple space for chat, memories, goals, todos, date ideas, shared calendar moments, daily quotes, pings, streaks, app lock, subscriptions, and Play Store release workflows.", role: "Expo SDK 54, React Native 0.81, Firebase, Cloud Functions, FCM, RevenueCat, Zustand", type: "app" },
-  { id: 504, title: "Hadith of the Day", category: "Android App", client: "Faith Product", year: "2026", result: "Android v0.9.1", description: "Calm, source-forward hadith reading app with a vertical reflection feed, saved notes, collections, source-linked corpus, reminders, widget, sharing, and reviewed remote corpus contracts.", role: "Kotlin Android, backend contracts, validation tooling, provider policy, Firebase Functions emulator checks", type: "app" },
-  { id: 505, title: "Let's Love", category: "Landing Page", client: "Let's Love", year: "2026", result: "Landing Page", description: "Public signup site for the Let's Love mobile app, connected to Google Forms, optional Resend email, tester group links, voucher issuing, and production domain settings.", role: "Next.js, React, GSAP, Lenis, Three.js, server action signup flow", type: "site" },
-
-  { id: 508, title: "Trust and Safety India Festival", category: "Conference Website", client: "Centre For Social Research", year: "2026", result: "Official conference platform", description: "A polished event website for programme discovery, speaker profiles, registration, sponsors, media coverage, and conference information.", role: "Next.js 16, React 19, Tailwind, Sanity, Supabase, Clerk, Sentry", type: "site" },
-  { id: 509, title: "TASI", category: "Mobile App", client: "Centre For Social Research", year: "2026", result: "Expo app v1.0.4", description: "Conference companion app with authentication, event data, dark visual system, camera permissions for QR check-in, notifications, media/profile support, and OTA updates.", role: "Expo, React Native, Clerk Expo, Firebase, Supabase, Sanity, Sentry, React Query", type: "app" },
-] satisfies Array<Project & { type: 'site' | 'app' }>
-
-function getProjectLogo(title: string): string | null {
-  const t = title.toLowerCase()
-  if (t.includes('asmita')) return '/images/logo-asmita.png'
-  if (t.includes("let's love") || t.includes('lets love')) return '/images/logo-letslove.png'
-  if (t.includes('tasi') || t.includes('trust and safety india')) return '/images/logo-tasi.png'
-  if (t.includes('hadith')) return '/images/logo-hod.png'
-  return null
-}
-
-function getProjectAvatar(title: string): { initials: string; bg: string; text: string } {
-  const t = title.toLowerCase()
-  if (t.includes('tasi') || t.includes('trust and safety india')) return { initials: 'T', bg: '#b91c1c', text: '#fef2f2' }
-  if (t.includes('hadith')) return { initials: 'H', bg: '#1a6b5c', text: '#d4f0e8' }
-  if (t.includes('draft habit')) return { initials: 'DH', bg: '#c45c1a', text: '#fde8d4' }
-  if (t.includes('time twist')) return { initials: 'TT', bg: '#1a3a6b', text: '#d4e0f0' }
-  if (t.includes('ai note') || t.includes('note researcher')) return { initials: 'AI', bg: '#3a1a6b', text: '#e0d4f0' }
-  if (t.includes('shagun')) return { initials: 'SB', bg: '#6b1a3a', text: '#f0d4e0' }
-  if (t.includes('shaadi') || t.includes('rsvp')) return { initials: 'SI', bg: '#6b3a1a', text: '#f0e0d4' }
-  if (t.includes('jamsaq')) return { initials: 'JS', bg: '#4a154b', text: '#d9bdde' }
-  if (t.includes("let's love landing") || t.includes('lets love landing')) return { initials: 'LL', bg: '#8b1a4a', text: '#f0d4e3' }
-  // generic fallback using first letter
-  const word = title.trim().split(' ')[0]
-  return { initials: word.slice(0, 2).toUpperCase(), bg: '#4a154b', text: '#d9bdde' }
-}
-
-function getPlayStoreLink(title: string, category: string): string | null {
-  const t = title.toLowerCase()
-  if ((t.includes("let's love") || t.includes('lets love')) && category.toLowerCase().includes('mobile')) {
-    return 'https://play.google.com/store/apps/details?id=com.letslove.app'
-  }
-  return null
-}
-
-function getProjectUrl(title: string, category?: string): string | null {
-  const t = title.toLowerCase()
-  const c = (category ?? '').toLowerCase()
-  const LIVE_URLS: Record<string, string> = {
-    asmita: 'https://meriasmita.org',
-    letsLoveLanding: 'https://letslove.jamsaq.in',
-    tasiWebsite: 'https://trustandsafetyindia.org',
-  }
-  if (t.includes('asmita') && LIVE_URLS.asmita) return LIVE_URLS.asmita
-  if ((t.includes("let's love") || t.includes('lets love')) && c.includes('landing') && LIVE_URLS.letsLoveLanding) return LIVE_URLS.letsLoveLanding
-  if ((t.includes('tasi') || t.includes('trust and safety india')) && !c.includes('mobile') && !c.includes('android') && !c.includes('app') && LIVE_URLS.tasiWebsite) return LIVE_URLS.tasiWebsite
-  return null
-}
-
-const showcasedSites = curatedShowcase.filter(project => project.type === 'site')
-const showcasedApps = curatedShowcase.filter(project => project.type === 'app')
-
-const services = [
-  {
-    title: "Websites",
-    desc: "High-signal marketing sites and digital experiences that feel considered at every pixel.",
-    points: ["Brand systems & visual language", "Conversion-focused marketing sites", "Webflow + custom engineering", "Performance & accessibility"]
-  },
-  {
-    title: "Mobile Apps",
-    desc: "Quietly excellent iOS and Android experiences built for real people, not app-store theatre.",
-    points: ["Consumer and B2B products", "Real-time and offline-first", "App Store growth support", "Native + cross-platform"]
-  },
-  {
-    title: "AI Systems",
-    desc: "Agents, RAG pipelines, and LLM-powered automation that actually work in production.",
-    points: ["RAG & vector search pipelines", "AI agents & workflow automation", "Document intelligence & extraction", "OpenAI · Anthropic · LangChain"]
-  }
-]
-
-const capabilities = [
-  {
-    title: "WEB",
-    headline: "Websites & Web Apps",
-    items: ["Landing pages & marketing sites", "Conference & event platforms", "SaaS web applications", "Next.js · TypeScript · Tailwind"],
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="3" width="20" height="14" rx="2" />
-        <path d="M8 21h8M12 17v4" />
-      </svg>
-    ),
-  },
-  {
-    title: "MOBILE",
-    headline: "Mobile Apps",
-    items: ["Android (Kotlin / Compose)", "Cross-platform (Expo / React Native)", "Firebase · Supabase · RevenueCat", "Play Store release & OTA updates"],
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="5" y="2" width="14" height="20" rx="3" />
-        <path d="M10 18h4" />
-      </svg>
-    ),
-  },
-  {
-    title: "AI SYSTEMS",
-    headline: "AI Agents & Automation",
-    items: ["RAG pipelines & vector search", "LLM-powered workflows & agents", "Document automation & extraction", "OpenAI · Anthropic · LangChain"],
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2a4 4 0 0 1 4 4v2a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z" />
-        <path d="M9 12h6" />
-        <path d="M8 16h8a4 4 0 0 1 4 4H4a4 4 0 0 1 4-4z" />
-        <circle cx="9" cy="7" r="1" fill="currentColor" stroke="none" />
-        <circle cx="15" cy="7" r="1" fill="currentColor" stroke="none" />
-      </svg>
-    ),
-  },
-]
-
-const engagements = [
-  {
-    name: "Starter",
-    scope: "Marketing site or landing page",
-    desc: "A focused build for brands that need a sharp, fast web presence, designed, built, and deployed in weeks.",
-    timeline: "1–2 weeks",
-    includes: ["Landing page or marketing site", "Mobile-responsive design", "CMS integration", "Launch & handoff support"],
-    featured: false,
-  },
-  {
-    name: "Growth",
-    scope: "Full product build",
-    desc: "End-to-end product engagement: discovery, design system, core experience, and first release.",
-    timeline: "2–4 weeks",
-    includes: ["Web or mobile application", "Design system & component library", "Auth, payments, integrations", "Testing & deployment pipeline"],
-    featured: true,
-  },
-  {
-    name: "Scale",
-    scope: "Complex platform",
-    desc: "For products that need real-time collaboration, multi-user roles, integrations, and infrastructure that holds.",
-    timeline: "4–8 weeks",
-    includes: ["Multi-service architecture", "Admin dashboards & tooling", "Third-party integrations", "Observability & scale planning"],
-    featured: false,
-  },
-]
-
-const process = [
-  { num: "01", title: "Discover", desc: "Deep listening. User research, constraints, ambition. We align before we design." },
-  { num: "02", title: "Design", desc: "High-fidelity prototypes, interaction systems, and a living design language you can feel." },
-  { num: "03", title: "Build", desc: "Production-grade, type-safe work with weekly demos and zero theatre at handoff." },
-  { num: "04", title: "Launch & Care", desc: "Careful deployment, training, and an ongoing relationship. We stay close." }
-]
-
-const testimonials = [
-  { quote: "The TASI 2026 website and app exceeded every expectation. Delivered on time, polished, and production-ready.", name: "TASI 2026 Team", role: "Centre For Social Research" },
-  { quote: "Really loving the experience so far. The app feels cozy, private, and designed with couples in mind. Features like shared memories, goals, and daily interactions make staying connected feel more special. Excited to see what's coming next!", name: "Let's Love user", role: "★★★★★ via Google Play" },
-  { quote: "The Asmita platform handled sensitive workflows with exactly the right level of care and technical rigour.", name: "Asmita Project", role: "Open-source safety project" }
-]
 
 const textReveal = {
   hidden: ({ offset = 20, blur = 10 }: { offset?: number; blur?: number }) => ({ opacity: 0, y: offset, filter: `blur(${blur}px)` }),
@@ -319,6 +38,20 @@ const textReveal = {
   }),
 }
 
+// Shared Play Store glyph used by the project modal CTAs.
+function PlayStoreIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3.6 1.8c-.3.3-.5.7-.5 1.2v18c0 .5.2.9.5 1.2l.1.1L13.9 12 3.7 1.7l-.1.1z" fill="#fff" fillOpacity="0.95"/>
+      <path d="M17.5 8.4 13.9 12l3.6 3.6 4.1-2.4c.6-.3.9-.9.9-1.5s-.3-1.2-.9-1.5l-4.1-2.3z" fill="#fff" fillOpacity="0.7"/>
+      <path d="M13.9 12 3.6 22.2c.3.1.6.2.9.2.3 0 .6-.1.9-.3l8.5-4.9-4-5.2z" fill="#fff" fillOpacity="0.85"/>
+      <path d="M13.9 12 17.5 8.4 9 3.5c-.3-.2-.6-.3-.9-.3-.3 0-.6.1-.9.2L13.9 12z" fill="#fff" fillOpacity="0.85"/>
+    </svg>
+  )
+}
+
+// Brand gradient shared by the modal CTA pills.
+const CTA_GRADIENT = 'linear-gradient(90deg, #ff1f6d 0%, #ff7a3d 100%)'
 
 function AgencyDashboardPreview() {
   return (
@@ -1044,41 +777,7 @@ function App() {
           </div>
         </div>
 
-        <ProjectShowcase projects={curatedShowcase} onOpen={openProject} />
-
-        <div className="hidden">
-          {projectGroups.map(group => (
-            <div key={group.title}>
-              <div>
-                <div>
-                  <div className="micro-cap text-[#4a154b] mb-2">{group.kicker}</div>
-                  <h4 className="heading-lg tracking-[-0.2px]">{group.title}</h4>
-                  <p className="caption text-[#696969] max-w-[62ch] mt-2">{group.desc}</p>
-                </div>
-                <div className="text-sm font-semibold text-[#4a154b]">{group.items.length} projects</div>
-              </div>
-
-              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
-                {group.items.map(p => (
-                  <div key={p.id} onClick={() => openProject(p)} className="work-card motion-card p-6 cursor-pointer group">
-                    <div className="flex justify-between items-start gap-4">
-                      <div>
-                        <div className="heading-sm tracking-[-0.2px] group-hover:text-[#4a154b] transition-colors">{p.title}</div>
-                        <div className="caption text-[#696969] mt-0.5">{p.client} - {p.year}</div>
-                      </div>
-                      <div className="rounded-full bg-[#f4ede4] px-3 py-1 text-[11px] font-semibold text-[#4a154b] whitespace-nowrap">{p.category}</div>
-                    </div>
-                    <div className="mt-5 text-[#696969] body-md leading-snug">{p.description}</div>
-                    <div className="mt-5 text-xs font-medium tracking-wide text-[#4a154b]">{p.result}</div>
-                    <div className="mt-5 pt-4 border-t border-[#e6e6e6] flex items-center text-sm text-[#4a154b] group-hover:gap-1 transition-all">
-                      View details <ArrowRight size={15} className="ml-1.5" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+        <ProjectShowcase projects={projects} onOpen={openProject} />
       </section>
 
       {/* ENGAGEMENTS / PRICING — exact card-pricing + featured */}
@@ -1307,17 +1006,18 @@ function App() {
                     <div className="text-[#696969]">{selectedProject.client}</div>
                   </div>
                   <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
-                    {getProjectLogo(selectedProject.title) ? (
-                      (selectedProject.title.toLowerCase().includes('tasi') || selectedProject.title.toLowerCase().includes('trust and safety india')) ? (
+                    {selectedProject.logo ? (
+                      selectedProject.wideLogo ? (
                         <div className="bg-white rounded-2xl ring-1 ring-black/5 shadow-[0_4px_16px_rgba(0,0,0,0.12)] flex items-center justify-center px-3" style={{ height: '56px' }}>
-                          <img src="/images/logo-tasi.png" alt="TASI logo" style={{ height: '32px', width: 'auto', display: 'block' }} />
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={selectedProject.logo} alt={`${selectedProject.title} logo`} style={{ height: '32px', width: 'auto', display: 'block' }} />
                         </div>
                       ) : (
-                        <Image src={getProjectLogo(selectedProject.title)!} alt={`${selectedProject.title} logo`} width={56} height={56} className={`h-14 w-14 object-cover ring-1 ring-black/5 shadow-[0_4px_16px_rgba(0,0,0,0.12)] ${selectedProject.title.toLowerCase().includes('asmita') ? 'rounded-xl' : 'rounded-2xl'}`} />
+                        <Image src={selectedProject.logo} alt={`${selectedProject.title} logo`} width={56} height={56} className={`h-14 w-14 object-cover ring-1 ring-black/5 shadow-[0_4px_16px_rgba(0,0,0,0.12)] ${selectedProject.logoRounded ?? 'rounded-2xl'}`} />
                       )
-                    ) : (() => { const av = getProjectAvatar(selectedProject.title); return (
-                      <div className="h-14 w-14 rounded-2xl ring-1 ring-black/5 shadow-[0_4px_16px_rgba(0,0,0,0.12)] flex items-center justify-center font-bold text-sm tracking-wide select-none" style={{ background: av.bg, color: av.text }}>{av.initials}</div>
-                    )})()}
+                    ) : (
+                      <div className="h-14 w-14 rounded-2xl ring-1 ring-black/5 shadow-[0_4px_16px_rgba(0,0,0,0.12)] flex items-center justify-center font-bold text-sm tracking-wide select-none" style={{ background: '#4a154b', color: '#d9bdde' }}>{selectedProject.title.trim().slice(0, 2).toUpperCase()}</div>
+                    )}
                     <button onClick={closeProject} className="text-xs text-[#696969] hover:text-[#1d1d1d]">Close</button>
                   </div>
                 </div>
@@ -1334,44 +1034,34 @@ function App() {
               </div>
 
               <div className="border-t border-[#e6e6e6] px-8 md:px-10 py-6 bg-[#faf6f1] flex flex-col md:flex-row gap-3 justify-between items-center text-sm">
-                {getPlayStoreLink(selectedProject.title, selectedProject.category) ? (
+                {selectedProject.playStoreUrl ? (
                   <>
                     <div className="text-[#696969]">Available now on Android</div>
                     <a
-                      href={getPlayStoreLink(selectedProject.title, selectedProject.category)!}
+                      href={selectedProject.playStoreUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 text-white rounded-full px-6 py-3 font-semibold text-sm transition-transform hover:scale-[1.03] shadow-[0_6px_18px_rgba(237,42,98,0.35)]"
-                      style={{ background: 'linear-gradient(90deg, #ff1f6d 0%, #ff7a3d 100%)' }}
+                      style={{ background: CTA_GRADIENT }}
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3.6 1.8c-.3.3-.5.7-.5 1.2v18c0 .5.2.9.5 1.2l.1.1L13.9 12 3.7 1.7l-.1.1z" fill="#fff" fillOpacity="0.95"/>
-                        <path d="M17.5 8.4 13.9 12l3.6 3.6 4.1-2.4c.6-.3.9-.9.9-1.5s-.3-1.2-.9-1.5l-4.1-2.3z" fill="#fff" fillOpacity="0.7"/>
-                        <path d="M13.9 12 3.6 22.2c.3.1.6.2.9.2.3 0 .6-.1.9-.3l8.5-4.9-4-5.2z" fill="#fff" fillOpacity="0.85"/>
-                        <path d="M13.9 12 17.5 8.4 9 3.5c-.3-.2-.6-.3-.9-.3-.3 0-.6.1-.9.2L13.9 12z" fill="#fff" fillOpacity="0.85"/>
-                      </svg>
+                      <PlayStoreIcon />
                       Download on Play Store
                     </a>
                   </>
-                ) : getProjectUrl(selectedProject.title, selectedProject.category) ? (
+                ) : selectedProject.liveUrl ? (
                   <>
                     <div className="text-[#696969]">Want to see it live?</div>
-                    <a href={getProjectUrl(selectedProject.title, selectedProject.category)!} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white rounded-full px-6 py-3 font-semibold text-sm transition-transform hover:scale-[1.03] shadow-[0_6px_18px_rgba(237,42,98,0.35)]" style={{ background: 'linear-gradient(90deg, #ff1f6d 0%, #ff7a3d 100%)' }}>Check out the site</a>
+                    <a href={selectedProject.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white rounded-full px-6 py-3 font-semibold text-sm transition-transform hover:scale-[1.03] shadow-[0_6px_18px_rgba(237,42,98,0.35)]" style={{ background: CTA_GRADIENT }}>Check out the site</a>
                   </>
-                ) : (() => { const cat = selectedProject.category.toLowerCase(); return (cat.includes('mobile') || cat.includes('android') || cat === 'ai mobile system') && !cat.includes('web') && !cat.includes('landing') })() ? (
+                ) : selectedProject.type === 'app' ? (
                   <>
                     <div className="text-[#696969]">Coming soon on Android</div>
                     <button
                       disabled
                       className="inline-flex items-center gap-2 text-white rounded-full px-6 py-3 font-semibold text-sm cursor-not-allowed shadow-[0_6px_18px_rgba(237,42,98,0.35)]"
-                      style={{ background: 'linear-gradient(90deg, #ff1f6d 0%, #ff7a3d 100%)' }}
+                      style={{ background: CTA_GRADIENT }}
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3.6 1.8c-.3.3-.5.7-.5 1.2v18c0 .5.2.9.5 1.2l.1.1L13.9 12 3.7 1.7l-.1.1z" fill="#fff" fillOpacity="0.95"/>
-                        <path d="M17.5 8.4 13.9 12l3.6 3.6 4.1-2.4c.6-.3.9-.9.9-1.5s-.3-1.2-.9-1.5l-4.1-2.3z" fill="#fff" fillOpacity="0.7"/>
-                        <path d="M13.9 12 3.6 22.2c.3.1.6.2.9.2.3 0 .6-.1.9-.3l8.5-4.9-4-5.2z" fill="#fff" fillOpacity="0.85"/>
-                        <path d="M13.9 12 17.5 8.4 9 3.5c-.3-.2-.6-.3-.9-.3-.3 0-.6.1-.9.2L13.9 12z" fill="#fff" fillOpacity="0.85"/>
-                      </svg>
+                      <PlayStoreIcon />
                       Coming Soon on Play Store
                     </button>
                   </>
