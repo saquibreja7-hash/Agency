@@ -460,7 +460,7 @@ function App() {
       </nav>
 
       {/* HERO — pastel mesh + floating mockups with parallax */}
-      <section id="hero" ref={heroRef} className="hero relative min-h-screen overflow-hidden px-5 pt-[96px] text-center sm:pt-[118px] md:pt-[140px]" style={{ backgroundColor: '#1a1420' }}>
+      <section id="hero" ref={heroRef} className="hero relative sm:min-h-screen overflow-hidden px-5 pt-[96px] pb-10 text-center sm:pb-0 sm:pt-[118px] md:pt-[140px]" style={{ backgroundColor: '#1a1420' }}>
         <Image src="/images/hero-bg.png" alt="" fill priority style={{ objectFit: 'cover', objectPosition: 'center bottom', opacity: 0.85 }} />
         <div className="pointer-events-none absolute inset-0 bg-[rgba(10,8,15,0.45)]" />
         <div className="hero-text relative z-10 mx-auto flex max-w-[820px] flex-col items-center">
@@ -481,7 +481,7 @@ function App() {
         </div>
 
 
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-[3] flex justify-center">
+        <div className="pointer-events-none relative mt-10 sm:mt-0 sm:absolute bottom-0 left-0 right-0 z-[3] flex justify-center">
           <motion.div
             initial={{ opacity: 0, y: 80, filter: 'blur(8px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -492,13 +492,13 @@ function App() {
           </motion.div>
         </div>
 
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-[6] h-[220px] bg-gradient-to-t from-[#05050c]/85 via-[#05050c]/50 to-transparent" />
+        <div className="pointer-events-none hidden sm:block absolute bottom-0 left-0 right-0 z-[6] h-[220px] bg-gradient-to-t from-[#05050c]/85 via-[#05050c]/50 to-transparent" />
         <motion.button
           onClick={() => scrollTo('services')}
           initial={{ opacity: 0, y: 0 }}
           animate={{ opacity: 1, y: [0, -4, 0] }}
           transition={{ opacity: { duration: 0.6, delay: 1.2 }, y: { duration: 2.5, repeat: Infinity, ease: 'easeInOut' } }}
-          className="absolute bottom-3 left-0 right-0 z-20 mx-auto flex w-fit items-center gap-2 text-sm font-medium tracking-[-0.28px] text-white"
+          className="absolute bottom-3 left-0 right-0 z-20 mx-auto hidden sm:flex w-fit items-center gap-2 text-sm font-medium tracking-[-0.28px] text-white"
         >
           <motion.span
             className="inline-flex h-3.5 w-3.5"
