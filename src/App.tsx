@@ -421,7 +421,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-[var(--canvas)] text-[var(--ink)] selection:bg-[#4a154b] selection:text-white font-sans">
-      {/* NAV — nav-bar-light */}
+      {/* NAV - nav-bar-light */}
       <nav className="nav-bar-light fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#f0f0f0]">
         <div className="container grid h-20 grid-cols-[1fr_auto_1fr] items-center gap-5">
           <div onClick={() => scrollTo('hero')} className="cursor-pointer justify-self-start">
@@ -459,7 +459,7 @@ function App() {
         </AnimatePresence>
       </nav>
 
-      {/* HERO — pastel mesh + floating mockups with parallax */}
+      {/* HERO - pastel mesh + floating mockups with parallax */}
       <section id="hero" ref={heroRef} className="hero relative sm:min-h-screen overflow-hidden px-5 pt-[96px] pb-10 text-center sm:pb-0 sm:pt-[118px] md:pt-[140px]" style={{ backgroundColor: '#1a1420' }}>
         <Image src="/images/hero-bg.png" alt="" fill priority style={{ objectFit: 'cover', objectPosition: 'center bottom', opacity: 0.85 }} />
         <div className="pointer-events-none absolute inset-0 bg-[rgba(10,8,15,0.45)]" />
@@ -511,7 +511,7 @@ function App() {
         </motion.button>
       </section>
 
-      {/* SERVICES — card-feature-cream */}
+      {/* SERVICES - card-feature-cream */}
       <section id="services" className="section editorial-band relative overflow-hidden">
         <div className="container">
           <div data-reveal className="text-center mb-10">
@@ -740,7 +740,7 @@ function App() {
         </div>
       </section>
 
-      {/* CAPABILITIES — what we actually ship */}
+      {/* CAPABILITIES - what we actually ship */}
       <section ref={statsRef} className="container section border-t border-[var(--hairline)]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {capabilities.map((cap, idx) => (
@@ -780,7 +780,7 @@ function App() {
         <ProjectShowcase projects={projects} onOpen={openProject} />
       </section>
 
-      {/* ENGAGEMENTS / PRICING — exact card-pricing + featured */}
+      {/* ENGAGEMENTS / PRICING - exact card-pricing + featured */}
       <section id="engagements" ref={engagementsRef} className="section editorial-band editorial-band-lavender relative overflow-hidden">
         <div className="container">
           <div data-reveal className="text-center mb-10">
@@ -855,7 +855,7 @@ function App() {
         </div>
       </section>
 
-      {/* CLOSING AUBERGINE BAND — card-aubergine-band */}
+      {/* CLOSING AUBERGINE BAND - card-aubergine-band */}
       <div data-reveal className="card-aubergine-band closing-band mt-8">
         <div className="container text-center">
           <div className="max-w-[620px] mx-auto">
@@ -877,7 +877,7 @@ function App() {
           <AnimatePresence mode="wait">
             {!isSubmitted ? (
               <form onSubmit={handleSubmit} className="space-y-5">
-                {/* honeypot — bots fill this, humans don't see it */}
+                {/* honeypot - bots fill this, humans don't see it */}
                 <input type="text" name="website" tabIndex={-1} autoComplete="off" style={{ position: 'absolute', left: '-9999px', opacity: 0, pointerEvents: 'none' }} />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
@@ -943,7 +943,7 @@ function App() {
         </div>
       </section>
 
-      {/* FOOTER — footer-aubergine */}
+      {/* FOOTER - footer-aubergine */}
       <footer className="footer-aubergine mt-12">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-y-10 text-sm">
@@ -986,7 +986,7 @@ function App() {
         </div>
       </footer>
 
-      {/* PROJECT MODAL — clean light modal */}
+      {/* PROJECT MODAL - clean light modal */}
       <AnimatePresence>
         {selectedProject && (
           <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/60 p-4" onClick={closeProject}>

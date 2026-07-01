@@ -53,9 +53,9 @@ export default function PrivacyPage() {
       <h2 style={sectionStyle}>Service providers and data processors</h2>
       <p style={paraStyle}>To operate this Site and respond to enquiries, we rely on the following processors, each of which handles data under its own privacy policy:</p>
       <ul style={{ paddingLeft: 22, marginBottom: 16 }}>
-        <li style={liStyle}><strong>Neon</strong> — managed PostgreSQL database used to store enquiry submissions.</li>
-        <li style={liStyle}><strong>Resend</strong> — email delivery service used to send notification and acknowledgement emails.</li>
-        <li style={liStyle}><strong>Vercel</strong> — hosting and content delivery for the Site.</li>
+        <li style={liStyle}><strong>Neon</strong>, a managed PostgreSQL database used to store enquiry submissions.</li>
+        <li style={liStyle}><strong>Resend</strong>, an email delivery service used to send notification and acknowledgement emails.</li>
+        <li style={liStyle}><strong>Vercel</strong>, hosting and content delivery for the Site.</li>
       </ul>
       <p style={paraStyle}>
         Some of these providers may process or store data outside India, including in regions such as the United States or the European Union.

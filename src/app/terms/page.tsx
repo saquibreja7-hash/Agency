@@ -21,7 +21,7 @@ export default function TermsPage() {
       <h2 style={sectionStyle}>About us</h2>
       <p style={paraStyle}>
         JAMSAQ STUDIO is a product design and engineering studio based in India that builds websites, mobile apps, and AI systems. These Terms
-        relate to your use of this Site and any general enquiry made through it. They do not, by themselves, create a client relationship —
+        relate to your use of this Site and any general enquiry made through it. They do not, by themselves, create a client relationship;
         that is governed by a separate written agreement (see &ldquo;Engagements&rdquo; below).
       </p>
 

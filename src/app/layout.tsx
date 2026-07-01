@@ -8,14 +8,14 @@ const inter = Inter({
   variable: '--font-inter',
 })
 
-const SITE_TITLE = 'JAMSAQ STUDIO — Websites, Mobile Apps & AI Systems'
+const SITE_TITLE = 'JAMSAQ STUDIO · Websites, Mobile Apps & AI Systems'
 const SITE_DESC = 'JAMSAQ STUDIO is a product design and engineering studio building websites, mobile apps, and AI systems for ambitious teams. Delicate craft. Enduring results.'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://jamsaq.in'),
   title: {
     default: SITE_TITLE,
-    template: '%s — JAMSAQ STUDIO',
+    template: '%s · JAMSAQ STUDIO',
   },
   description: SITE_DESC,
   applicationName: 'JAMSAQ STUDIO',

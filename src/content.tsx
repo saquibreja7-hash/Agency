@@ -19,16 +19,16 @@ export interface Project {
   wideLogo?: boolean
   /** Tailwind rounding class for the square logo tile. Defaults to rounded-2xl. */
   logoRounded?: string
-  /** Public live site — drives the "Check out the site" CTA. */
+  /** Public live site - drives the "Check out the site" CTA. */
   liveUrl?: string | null
-  /** Play Store listing — drives the "Download on Play Store" CTA. */
+  /** Play Store listing - drives the "Download on Play Store" CTA. */
   playStoreUrl?: string | null
 }
 
 const PLAY_STORE_LETSLOVE = 'https://play.google.com/store/apps/details?id=com.letslove.app'
 
 // =========================================
-// PROJECTS — single source of truth.
+// PROJECTS - single source of truth.
 // Behaviour (logo, CTA, live URL) is read from these explicit fields,
 // never inferred from the title string.
 // =========================================

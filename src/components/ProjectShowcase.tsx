@@ -176,7 +176,7 @@ function ScrollingScreenshot({ src, alt, hovered, bg = '#f0ede6', dark = false }
   const duration = Math.max(3, Math.min(8, scrollDistance / 80))
 
   // Touch devices have no hover, so drive the scroll automatically while the
-  // card is on screen — toggling in a loop (down, pause, up, pause).
+  // card is on screen - toggling in a loop (down, pause, up, pause).
   useEffect(() => {
     if (typeof window === 'undefined' || !window.matchMedia('(hover: none)').matches) return
     const container = containerRef.current
@@ -340,7 +340,7 @@ function LetsLoveAppPreview({ hovered }: { hovered: boolean }) {
       name="Let's Love"
       developer="Jamsaq Studio"
       category="Lifestyle · Relationships"
-      description="A private couple space for daily rituals, shared memories, date ideas, mood board, streaks, and real-time connection — built for exactly two people."
+      description="A private couple space for daily rituals, shared memories, date ideas, mood board, streaks, and real-time connection, built for exactly two people."
       rating="4.8"
       reviews="1.2K ratings"
       platform="Android"
@@ -359,7 +359,7 @@ function HadithPreview({ hovered }: { hovered: boolean }) {
       name="Hadith of the Day"
       developer="Jamsaq Studio"
       category="Education · Faith"
-      description="Daily hadith reflections presented with Arabic calligraphy, English translation, source attribution, and a curated corpus — calm and source-forward."
+      description="Daily hadith reflections presented with Arabic calligraphy, English translation, source attribution, and a curated corpus, calm and source-forward."
       rating="4.9"
       reviews="840 ratings"
       platform="Android"
@@ -378,7 +378,7 @@ function TASIAppPreview({ hovered }: { hovered: boolean }) {
       name="TASI Festival"
       developer="Centre for Social Research"
       category="Events · Conference"
-      description="Official companion app for Trust and Safety India Festival — agenda, speakers, QR badge, networking, AI assistant, and live updates for Delhi 2026."
+      description="Official companion app for Trust and Safety India Festival: agenda, speakers, QR badge, networking, AI assistant, and live updates for Delhi 2026."
       rating="4.7"
       reviews="320 ratings"
       platform="Android · iOS"
@@ -405,7 +405,7 @@ function ProjectPreview({ id, hovered }: { id: number; hovered: boolean }) {
 
 // ─── Browser Chrome Wrapper ───────────────────────────────────────────────────
 
-function BrowserChrome({ children, dark = false, url = 'jamsaq.com', hovered = false }: { children: React.ReactNode; dark?: boolean; url?: string; hovered?: boolean }) {
+function BrowserChrome({ children, dark = false, url = 'jamsaq.in', hovered = false }: { children: React.ReactNode; dark?: boolean; url?: string; hovered?: boolean }) {
   return (
     <div className={`rounded-t-xl overflow-hidden border ${dark ? 'border-white/10' : 'border-black/10'}`}>
       {/* Tab bar animates on hover */}
@@ -451,7 +451,7 @@ const PROJECT_META: Record<number, { url: string; dark?: boolean }> = {
 
 function ProjectCard({ project, onOpen }: { project: Project; onOpen: (p: Project) => void }) {
   const [hovered, setHovered] = useState(false)
-  const meta = PROJECT_META[project.id] ?? { url: 'jamsaq.com' }
+  const meta = PROJECT_META[project.id] ?? { url: 'jamsaq.in' }
   const liveUrl = project.liveUrl ?? undefined
 
   return (
@@ -464,7 +464,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: (p: Projec
         transition={{ duration: 0.3, ease: 'easeOut' }}
         className="h-full flex flex-col rounded-2xl overflow-hidden border border-[#e6e6e6] bg-white shadow-sm hover:shadow-xl hover:shadow-black/8 transition-shadow duration-300"
       >
-        {/* Thumbnail — clicking it opens the live site if available, otherwise the modal */}
+        {/* Thumbnail - clicking it opens the live site if available, otherwise the modal */}
         <div
           className="relative overflow-hidden"
           onClick={liveUrl ? (e) => { e.stopPropagation(); window.open(liveUrl, '_blank', 'noopener,noreferrer') } : undefined}

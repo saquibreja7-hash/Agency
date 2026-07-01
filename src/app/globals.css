@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* =========================================
-   SLACC DESIGN SYSTEM — Adapted for Jamsaq
+   SLACC DESIGN SYSTEM - Adapted for Jamsaq
    Light-only, aubergine monotheism + cream/lavender
    ========================================= */
 
@@ -63,14 +63,14 @@ body {
 }
 
 /* =========================================
-   TYPOGRAPHY — Strict adherence to spec
+   TYPOGRAPHY - Strict adherence to spec
    ========================================= */
 
 h1, h2, h3, h4 {
   font-feature-settings: "tnum";
 }
 
-/* Display tiers — tight negative tracking */
+/* Display tiers - tight negative tracking */
 .display-xxl {
   font-size: 64px;
   font-weight: 700;
@@ -156,7 +156,7 @@ h1, h2, h3, h4 {
 }
 
 /* =========================================
-   BUTTONS — Exact pill system
+   BUTTONS - Exact pill system
    ========================================= */
 
 .button-primary-pill,
@@ -229,7 +229,7 @@ h1, h2, h3, h4 {
 }
 
 /* =========================================
-   CARDS — Per spec
+   CARDS - Per spec
    ========================================= */
 
 .card-pricing,
@@ -828,7 +828,7 @@ h1, h2, h3, h4 {
 }
 
 /* =========================================
-   NAV — Light marketing nav
+   NAV - Light marketing nav
    ========================================= */
 
 .nav-bar-light {
@@ -865,7 +865,7 @@ h1, h2, h3, h4 {
 }
 
 /* =========================================
-   LINKS — Per spec
+   LINKS - Per spec
    ========================================= */
 
 a.link-on-light {
@@ -952,7 +952,7 @@ a.link-on-aubergine:hover {
   box-shadow: rgba(0,0,0,0.08) 0 10px 30px 0;
 }
 
-/* Modal — light and clean */
+/* Modal - light and clean */
 .modal {
   background: var(--canvas);
   border-radius: var(--rounded-xl);
