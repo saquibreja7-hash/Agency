@@ -567,30 +567,30 @@ function App() {
                         <div className="mockup-dot" style={{ background: '#fc5' }} />
                         <div className="mockup-dot" style={{ background: '#5c5' }} />
                       </div>
-                      <div className="p-8 bg-white text-left">
+                      <div className="p-5 sm:p-8 bg-white text-left">
                         <div className="max-w-md">
                           <div className="pill-cap-shade mb-4">BRAND EXPERIENCE</div>
-                          <h3 className="text-4xl tracking-[-1.5px] font-semibold leading-none mb-4 text-[#1d1d1d]">
+                          <h3 className="text-2xl sm:text-4xl tracking-[-1px] sm:tracking-[-1.5px] font-semibold leading-tight sm:leading-none mb-4 text-[#1d1d1d]">
                             Digital presence<br />that actually converts.
                           </h3>
-                          <p className="text-[#696969] mb-6">We build fast, beautiful marketing sites and platforms with obsessive attention to typography, motion, and performance.</p>
-                          <div className="flex gap-3">
+                          <p className="text-sm sm:text-base text-[#696969] mb-6">We build fast, beautiful marketing sites and platforms with obsessive attention to typography, motion, and performance.</p>
+                          <div className="flex flex-wrap gap-2 sm:gap-3">
                             <div className="button-primary-pill text-sm">Explore our work</div>
                             <div className="button-secondary-pill text-sm">See case studies</div>
                           </div>
                         </div>
-                        <div className="mt-10 grid grid-cols-3 gap-4 text-sm">
-                          <div className="bg-[#f4ede4] p-4 rounded-xl">
-                            <div className="text-[#4a154b] text-xs tracking-widest mb-1">PERFORMANCE</div>
-                            <div className="font-semibold">Production-grade</div>
+                        <div className="mt-8 sm:mt-10 grid grid-cols-3 gap-2 sm:gap-4 text-sm">
+                          <div className="bg-[#f4ede4] p-3 sm:p-4 rounded-xl">
+                            <div className="text-[#4a154b] text-[10px] sm:text-xs tracking-normal sm:tracking-widest mb-1">PERFORMANCE</div>
+                            <div className="font-semibold text-xs sm:text-sm">Production-grade</div>
                           </div>
-                          <div className="bg-[#f4ede4] p-4 rounded-xl">
-                            <div className="text-[#4a154b] text-xs tracking-widest mb-1">MOTION</div>
-                            <div className="font-semibold">Framer Motion</div>
+                          <div className="bg-[#f4ede4] p-3 sm:p-4 rounded-xl">
+                            <div className="text-[#4a154b] text-[10px] sm:text-xs tracking-normal sm:tracking-widest mb-1">MOTION</div>
+                            <div className="font-semibold text-xs sm:text-sm">Framer Motion</div>
                           </div>
-                          <div className="bg-[#f4ede4] p-4 rounded-xl">
-                            <div className="text-[#4a154b] text-xs tracking-widest mb-1">STACK</div>
-                            <div className="font-semibold">Next.js + Tailwind</div>
+                          <div className="bg-[#f4ede4] p-3 sm:p-4 rounded-xl">
+                            <div className="text-[#4a154b] text-[10px] sm:text-xs tracking-normal sm:tracking-widest mb-1">STACK</div>
+                            <div className="font-semibold text-xs sm:text-sm">Next.js + Tailwind</div>
                           </div>
                         </div>
                       </div>
