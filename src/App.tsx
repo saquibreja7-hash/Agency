@@ -262,7 +262,7 @@ function App() {
       // Capability cards entrance
       if (statsRef.current) {
         const capCards = statsRef.current.querySelectorAll('[data-reveal]')
-        gsap.from(capCards, {
+        if (capCards.length) gsap.from(capCards, {
           y: 30,
           opacity: 0,
           duration: 0.75,
@@ -293,7 +293,7 @@ function App() {
       // --- WORK SECTION: staggered reveal + parallax on cards ---
       if (workRef.current) {
         const cards = workRef.current.querySelectorAll('.work-card')
-        gsap.from(cards, {
+        if (cards.length) gsap.from(cards, {
           y: 52,
           opacity: 0,
           duration: 0.85,
@@ -322,7 +322,7 @@ function App() {
       // --- ENGAGEMENTS / PRICING: featured card emphasis + parallax ---
       if (engagementsRef.current) {
         const pricingCards = engagementsRef.current.querySelectorAll('.card-pricing, .card-pricing-featured')
-        gsap.from(pricingCards, {
+        if (pricingCards.length) gsap.from(pricingCards, {
           y: 35,
           opacity: 0.3,
           duration: 0.7,
@@ -350,7 +350,7 @@ function App() {
       // --- PROCESS: nice staggered cards with parallax ---
       if (processRef.current) {
         const procCards = processRef.current.querySelectorAll('.card-feature-cream')
-        gsap.from(procCards, {
+        if (procCards.length) gsap.from(procCards, {
           y: 40,
           opacity: 0,
           duration: 0.8,
@@ -425,7 +425,7 @@ function App() {
       <nav className="nav-bar-light fixed top-0 left-0 right-0 z-50 bg-white border-b border-[#f0f0f0]">
         <div className="container grid h-20 grid-cols-[1fr_auto_1fr] items-center gap-5">
           <div onClick={() => scrollTo('hero')} className="cursor-pointer justify-self-start">
-            <Image src="/images/logo-purple.png" alt="JAMSAQ STUDIO" width={180} height={40} priority style={{ height: '40px', width: 'auto' }} />
+            <Image src="/images/logo-purple.png" alt="JAMSAQ STUDIO" width={80} height={40} priority />
           </div>
 
           {/* Desktop nav */}

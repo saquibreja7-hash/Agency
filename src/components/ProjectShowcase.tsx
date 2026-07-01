@@ -203,6 +203,8 @@ function ScrollingScreenshot({ src, alt, hovered, bg = '#f0ede6', dark = false }
         ref={imgRef}
         src={src}
         alt={alt}
+        loading="lazy"
+        decoding="async"
         className="w-full"
         style={{
           ...sharpImg,
@@ -267,6 +269,8 @@ function AppLinkPreview({
         <img
           src={icon}
           alt={name}
+          loading="lazy"
+          decoding="async"
           className="w-14 h-14 rounded-[16px] shrink-0 object-cover"
           style={{
             boxShadow: '0 4px 16px rgba(0,0,0,0.25)',
