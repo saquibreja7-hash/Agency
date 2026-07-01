@@ -158,6 +158,7 @@ function ScrollingScreenshot({ src, alt, hovered, bg = '#f0ede6', dark = false }
   const imgRef = useRef<HTMLImageElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [scrollDistance, setScrollDistance] = useState(0)
+  const [autoScroll, setAutoScroll] = useState(false)
 
   useEffect(() => {
     const img = imgRef.current
@@ -174,6 +175,28 @@ function ScrollingScreenshot({ src, alt, hovered, bg = '#f0ede6', dark = false }
 
   const duration = Math.max(3, Math.min(8, scrollDistance / 80))
 
+  // Touch devices have no hover, so drive the scroll automatically while the
+  // card is on screen — toggling in a loop (down, pause, up, pause).
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia('(hover: none)').matches) return
+    const container = containerRef.current
+    if (!container) return
+    let timer: ReturnType<typeof setInterval> | undefined
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setAutoScroll(true)
+        timer = setInterval(() => setAutoScroll(a => !a), (duration + 1.4) * 1000)
+      } else {
+        setAutoScroll(false)
+        if (timer) { clearInterval(timer); timer = undefined }
+      }
+    }, { threshold: 0.35 })
+    io.observe(container)
+    return () => { io.disconnect(); if (timer) clearInterval(timer) }
+  }, [duration])
+
+  const active = hovered || autoScroll
+
   return (
     <div ref={containerRef} className="relative w-full h-full overflow-hidden select-none" style={{ backgroundColor: bg }}>
       <img
@@ -185,16 +208,16 @@ function ScrollingScreenshot({ src, alt, hovered, bg = '#f0ede6', dark = false }
           ...sharpImg,
           willChange: 'transform',
           transition: `transform ${duration}s cubic-bezier(0.25, 0.1, 0.25, 1)`,
-          transform: hovered && scrollDistance > 0 ? `translateY(-${scrollDistance}px)` : 'translateY(0)',
+          transform: active && scrollDistance > 0 ? `translateY(-${scrollDistance}px)` : 'translateY(0)',
         }}
       />
       <motion.div
-        animate={{ opacity: hovered ? 0 : 0.15 }}
+        animate={{ opacity: active ? 0 : 0.15 }}
         transition={{ duration: 0.35 }}
         className={`absolute inset-0 pointer-events-none ${dark ? 'bg-black' : 'bg-white'}`}
       />
       <motion.div
-        animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 6 }}
+        animate={{ opacity: active ? 1 : 0, y: active ? 0 : 6 }}
         transition={{ duration: 0.25 }}
         className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm text-white rounded-full px-3 py-1.5 pointer-events-none whitespace-nowrap"
       >

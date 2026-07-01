@@ -439,7 +439,7 @@ function App() {
             <button onClick={() => scrollTo('contact')} className="button-primary-pill text-sm">Start a project</button>
           </div>
 
-          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 lg:hidden justify-self-end" aria-label="Menu">
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 lg:hidden justify-self-end col-start-3" aria-label="Menu">
             {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
