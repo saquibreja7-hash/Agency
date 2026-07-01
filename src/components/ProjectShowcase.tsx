@@ -526,7 +526,7 @@ export function ProjectShowcase({ projects, onOpen }: ProjectShowcaseProps) {
             <div className="text-sm font-semibold text-[#4a154b]">{section.items.length} projects</div>
           </div>
 
-          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {section.items.map(p => (
               <ProjectCard key={p.id} project={p} onOpen={onOpen} />
             ))}
